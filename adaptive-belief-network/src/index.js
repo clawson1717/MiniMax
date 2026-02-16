@@ -13,6 +13,8 @@
  * - UpdateTriggerManager: Class for managing trigger events
  * - Simulator: Class for orchestrating multi-agent simulation
  * - Visualizer: Class for console output visualization
+ * - Persistence: Module for saving/loading networks
+ * - Analysis: Module for analyzing belief evolution
  */
 
 const { Belief } = require('./Belief');
@@ -23,6 +25,8 @@ const { MessageSystem } = require('./MessageSystem');
 const { UpdateTrigger, UpdateTriggerManager } = require('./UpdateTrigger');
 const { Simulator } = require('./Simulator');
 const { Visualizer } = require('./Visualizer');
+const { Persistence } = require('./Persistence');
+const { Analysis } = require('./Analysis');
 
 module.exports = {
   Belief,
@@ -33,5 +37,7 @@ module.exports = {
   UpdateTrigger,
   UpdateTriggerManager,
   Simulator,
-  Visualizer
+  Visualizer,
+  Persistence,
+  Analysis
 };

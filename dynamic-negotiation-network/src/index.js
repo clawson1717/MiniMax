@@ -11,6 +11,15 @@ const Embedding = require('./Embedding');
 const DynamicTopologyManager = require('./TopologyManager');
 const AgentNetwork = require('./AgentNetwork');
 const NegotiationRound = require('./NegotiationRound');
+const NegotiationRunner = require('./NegotiationRunner');
+const Evaluator = require('./Evaluator');
+const {
+  AcceptStrategy,
+  RejectStrategy,
+  CounterStrategy,
+  RandomStrategy,
+  StrategyFactory
+} = require('./strategies');
 
 module.exports = {
   Agent,
@@ -18,5 +27,12 @@ module.exports = {
   Embedding,
   DynamicTopologyManager,
   AgentNetwork,
-  NegotiationRound
+  NegotiationRound,
+  NegotiationRunner,
+  Evaluator,
+  AcceptStrategy,
+  RejectStrategy,
+  CounterStrategy,
+  RandomStrategy,
+  StrategyFactory
 };

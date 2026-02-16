@@ -4,7 +4,8 @@
   "description": "Multi-agent system with dynamic belief networks, reactive updates, and adaptive communication topology",
   "main": "src/BeliefNetwork.js",
   "scripts": {
-    "test": "node tests/belief-network.test.js",
+    "test": "jest",
+    "test:coverage": "jest --coverage",
     "start": "node examples/basic-example.js"
   },
   "keywords": [
@@ -17,7 +18,9 @@
   "author": "",
   "license": "MIT",
   "dependencies": {},
-  "devDependencies": {},
+  "devDependencies": {
+    "jest": "^29.7.0"
+  },
   "engines": {
     "node": ">=14.0.0"
   }
