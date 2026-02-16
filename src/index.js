@@ -7,6 +7,7 @@ const { Agent, MockBrowser } = require('./Agent');
 const { Action, ActionTypes, ActionFactory } = require('./Action');
 const { UncertaintyTracker } = require('./UncertaintyTracker');
 const { CATTSAllocator } = require('./CATTSAllocator');
+const { FailureModeDetector } = require('./FailureModeDetector');
 
 module.exports = {
   // Core classes
@@ -17,6 +18,9 @@ module.exports = {
   // CATTS-style uncertainty tracking and compute allocation
   UncertaintyTracker,
   CATTSAllocator,
+  
+  // Multi-turn attack resilience
+  FailureModeDetector,
   
   // Action types and factory
   ActionTypes,
