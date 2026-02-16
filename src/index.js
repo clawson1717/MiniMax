@@ -10,6 +10,7 @@ const { CATTSAllocator } = require('./CATTSAllocator');
 const { FailureModeDetector } = require('./FailureModeDetector');
 const { ResilienceRecoverySystem } = require('./ResilienceRecovery');
 const { ChecklistReward } = require('./ChecklistReward');
+const { SelfVerificationSystem, VerificationStatus } = require('./SelfVerification');
 
 module.exports = {
   // Core classes
@@ -27,6 +28,10 @@ module.exports = {
   
   // CM2-style checklist reward verification
   ChecklistReward,
+  
+  // CM2-style self-verification system
+  SelfVerificationSystem,
+  VerificationStatus,
   
   // Action types and factory
   ActionTypes,
