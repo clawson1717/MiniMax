@@ -11,12 +11,16 @@ const { FailureModeDetector } = require('./FailureModeDetector');
 const { ResilienceRecoverySystem } = require('./ResilienceRecovery');
 const { ChecklistReward } = require('./ChecklistReward');
 const { SelfVerificationSystem, VerificationStatus } = require('./SelfVerification');
+const { RAA } = require('./RAA');
 
 module.exports = {
   // Core classes
   Agent,
   MockBrowser,
   Action,
+  
+  // RAA Main Integration Class
+  RAA,
   
   // CATTS-style uncertainty tracking and compute allocation
   UncertaintyTracker,
