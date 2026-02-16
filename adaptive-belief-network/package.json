@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest",
     "test:coverage": "jest --coverage",
-    "start": "node examples/basic-example.js"
+    "start": "node examples/demo.js"
   },
   "keywords": [
     "belief-network",
