@@ -139,20 +139,11 @@ class RejectStrategy {
    * @returns {Object} - Decision with action and details
    */
   evaluate(context) {
-    // Always rejects based on probability
-    if (Math.random() < this.probability) {
-      return {
-        action: 'reject',
-        reason: 'Strategy configured to reject all offers',
-        confidence: this.probability
-      };
-    }
-    
-    // Small chance to accept (unlikely with this strategy)
+    // Always rejects - this is a RejectStrategy
     return {
-      action: 'accept',
-      reason: 'Random acceptance despite reject strategy',
-      confidence: 1 - this.probability
+      action: 'reject',
+      reason: 'Strategy configured to reject all offers',
+      confidence: this.probability
     };
   }
 
