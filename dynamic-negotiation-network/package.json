@@ -6,7 +6,8 @@
   "scripts": {
     "test": "jest",
     "start": "node src/index.js",
-    "demo": "node src/demo.js"
+    "demo": "node src/demo.js",
+    "server": "node src/server.js"
   },
   "keywords": [
     "negotiation",
@@ -17,7 +18,10 @@
   ],
   "author": "",
   "license": "MIT",
-  "dependencies": {},
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5"
+  },
   "devDependencies": {
     "jest": "^29.7.0"
   }
