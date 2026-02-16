@@ -64,9 +64,9 @@ class FailureModeDetector {
     ];
     
     this.instructionInjectionPhrases = [
-      'ignore previous', 'disregard', 'forget', 'new instructions',
+      'ignore', 'disregard', 'forget', 'new instructions',
       'instead', 'from now on', 'you will now', 'your new role',
-      'system prompt', 'developer mode', 'DAN mode'
+      'system prompt', 'developer mode', 'DAN', 'do anything now'
     ];
     
     this.selfDoubtPhrases = [
