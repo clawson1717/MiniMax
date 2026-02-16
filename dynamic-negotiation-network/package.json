@@ -1,0 +1,24 @@
+{
+  "name": "dynamic-negotiation-network",
+  "version": "1.0.0",
+  "description": "A multi-agent LLM negotiation system where agent communication topology dynamically adapts based on semantic matching",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "jest",
+    "start": "node src/index.js",
+    "demo": "node src/demo.js"
+  },
+  "keywords": [
+    "negotiation",
+    "multi-agent",
+    "llm",
+    "semantic-matching",
+    "dynamic-topology"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}
