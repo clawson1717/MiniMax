@@ -1,0 +1,23 @@
+{
+  "name": "resilient-adaptive-agent",
+  "version": "0.1.0",
+  "description": "Web agent with CATTS compute allocation, attack resilience, and checklist verification",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "jest",
+    "start": "node examples/demo.js",
+    "lint": "echo 'Lint not configured yet'"
+  },
+  "keywords": [
+    "agent",
+    "CATTS",
+    "adaptive",
+    "resilience",
+    "web-agent"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}
