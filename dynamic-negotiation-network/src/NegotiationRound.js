@@ -353,9 +353,18 @@ class NegotiationRound {
 
   /**
    * Determine if two agents should communicate
+   * Respects dynamic topology when respectTopology option is enabled
    * @private
    */
   _shouldCommunicate(agent, neighbor) {
+    // If topology is respected, check if agents are connected
+    if (this.respectTopology) {
+      const topologyManager = this.network.getTopologyManager();
+      if (topologyManager && !topologyManager.areConnected(agent.id, neighbor.id)) {
+        return false; // Agents not connected in topology
+      }
+    }
+    
     // Check if agent has needs that neighbor might satisfy
     const agentNeeds = agent.getNeeds();
     const neighborOffers = neighbor.getOffers();
