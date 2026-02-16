@@ -8,9 +8,15 @@
 const Agent = require('./Agent');
 const SemanticMatcher = require('./SemanticMatcher');
 const Embedding = require('./Embedding');
+const DynamicTopologyManager = require('./TopologyManager');
+const AgentNetwork = require('./AgentNetwork');
+const NegotiationRound = require('./NegotiationRound');
 
 module.exports = {
   Agent,
   SemanticMatcher,
-  Embedding
+  Embedding,
+  DynamicTopologyManager,
+  AgentNetwork,
+  NegotiationRound
 };
