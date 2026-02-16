@@ -3,10 +3,14 @@
   "version": "0.1.0",
   "description": "Web agent with CATTS compute allocation, attack resilience, and checklist verification",
   "main": "src/index.js",
+  "bin": {
+    "raa": "./src/cli.js"
+  },
   "scripts": {
     "test": "jest",
     "start": "node examples/demo.js",
-    "lint": "echo 'Lint not configured yet'"
+    "lint": "echo 'Lint not configured yet'",
+    "cli": "node src/cli.js"
   },
   "keywords": [
     "agent",
@@ -19,5 +23,8 @@
   "license": "MIT",
   "devDependencies": {
     "jest": "^29.7.0"
+  },
+  "dependencies": {
+    "commander": "^14.0.3"
   }
 }
