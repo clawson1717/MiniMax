@@ -9,6 +9,7 @@ const { UncertaintyTracker } = require('./UncertaintyTracker');
 const { CATTSAllocator } = require('./CATTSAllocator');
 const { FailureModeDetector } = require('./FailureModeDetector');
 const { ResilienceRecoverySystem } = require('./ResilienceRecovery');
+const { ChecklistReward } = require('./ChecklistReward');
 
 module.exports = {
   // Core classes
@@ -23,6 +24,9 @@ module.exports = {
   // Multi-turn attack resilience
   FailureModeDetector,
   ResilienceRecoverySystem,
+  
+  // CM2-style checklist reward verification
+  ChecklistReward,
   
   // Action types and factory
   ActionTypes,
