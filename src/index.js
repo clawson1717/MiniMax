@@ -8,6 +8,7 @@ const { Action, ActionTypes, ActionFactory } = require('./Action');
 const { UncertaintyTracker } = require('./UncertaintyTracker');
 const { CATTSAllocator } = require('./CATTSAllocator');
 const { FailureModeDetector } = require('./FailureModeDetector');
+const { ResilienceRecoverySystem } = require('./ResilienceRecovery');
 
 module.exports = {
   // Core classes
@@ -21,6 +22,7 @@ module.exports = {
   
   // Multi-turn attack resilience
   FailureModeDetector,
+  ResilienceRecoverySystem,
   
   // Action types and factory
   ActionTypes,
