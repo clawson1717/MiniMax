@@ -1,0 +1,24 @@
+{
+  "name": "adaptive-belief-network",
+  "version": "1.0.0",
+  "description": "Multi-agent system with dynamic belief networks, reactive updates, and adaptive communication topology",
+  "main": "src/BeliefNetwork.js",
+  "scripts": {
+    "test": "node tests/belief-network.test.js",
+    "start": "node examples/basic-example.js"
+  },
+  "keywords": [
+    "belief-network",
+    "multi-agent",
+    "adaptive",
+    "reactive",
+    "knowledge-representation"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {},
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
