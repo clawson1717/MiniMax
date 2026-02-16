@@ -11,11 +11,13 @@ class NegotiationRound {
    * @param {AgentNetwork} network - The agent network
    * @param {Object} options - Configuration options
    * @param {Function} options.strategyResolver - Function to resolve agent strategies
+   * @param {boolean} options.respectTopology - Only allow communication with topology neighbors (default: false)
    */
   constructor(network, options = {}) {
     this.network = network;
     this.roundNumber = network.getCurrentRound();
     this.strategyResolver = options.strategyResolver || this._defaultStrategyResolver;
+    this.respectTopology = options.respectTopology || false;
     
     // Round state
     this.messages = [];

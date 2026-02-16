@@ -3,10 +3,13 @@
  * 
  * Orchestrates multi-round negotiations between agents.
  * Manages execution, timeout, history tracking, and result retrieval.
+ * 
+ * Step 14: Integrated DynamicTopologyManager for adaptive communication topology
  */
 
 const NegotiationRound = require('./NegotiationRound');
 const { StrategyFactory } = require('./strategies');
+const DynamicTopologyManager = require('./TopologyManager');
 
 class NegotiationRunner {
   /**
@@ -16,12 +19,18 @@ class NegotiationRunner {
    *} options.maxRounds - Maximum number of negotiation rounds
    * @param {number} options.timeout - Timeout in milliseconds
    * @param {boolean} options.verbose - Enable verbose logging
+   * @param {boolean} options.dynamicTopology - Enable dynamic topology rebuilding (default: true)
+   * @param {number} options.topologyRebuildInterval - Rebuild topology every N rounds (default: 1)
    */
   constructor(network, options = {}) {
     this.network = network;
     this.maxRounds = options.maxRounds || 20;
     this.timeout = options.timeout || 60000; // 1 minute default
     this.verbose = options.verbose || false;
+    
+    // Dynamic topology settings
+    this.dynamicTopology = options.dynamicTopology !== false; // default true
+    this.topologyRebuildInterval = options.topologyRebuildInterval || 1;
     
     // State
     this.rounds = [];
@@ -34,6 +43,25 @@ class NegotiationRunner {
     
     // Strategy cache
     this.strategies = new Map();
+    
+    // Initialize dynamic topology manager
+    if (this.dynamicTopology) {
+      this.topologyManager = new DynamicTopologyManager({
+        threshold: options.topologyThreshold || 0.3,
+        maxNeighbors: options.topologyMaxNeighbors || 5
+      });
+      
+      // Register all agents with topology manager
+      const agents = this.network.getAllAgents();
+      agents.forEach(agent => this.topologyManager.registerAgent(agent));
+      
+      // Build initial topology
+      this.topologyManager.buildTopology();
+      this._log('Dynamic topology initialized');
+    }
+    
+    // Track topology changes
+    this.topologyHistory = [];
   }
 
   /**
@@ -53,8 +81,12 @@ class NegotiationRunner {
     this.rounds = [];
     this.history = [];
     this.currentRound = 0;
+    this.topologyHistory = [];
     
     this._log('Starting negotiation...');
+    if (this.dynamicTopology) {
+      this._log('Dynamic topology enabled - communication graph will adapt to agent needs/offers');
+    }
     
     try {
       // Execute rounds until agreement or timeout
@@ -73,6 +105,11 @@ class NegotiationRunner {
           this.endTime = Date.now();
           this._log('Agreement reached!');
           break;
+        }
+        
+        // Rebuild topology if dynamic topology is enabled
+        if (this.dynamicTopology && this.currentRound % this.topologyRebuildInterval === 0) {
+          this._rebuildTopology();
         }
         
         // Execute next round
@@ -109,12 +146,119 @@ class NegotiationRunner {
   }
 
   /**
+   * Rebuild the communication topology based on current agent needs/offers
+   * @private
+   */
+  _rebuildTopology() {
+    if (!this.topologyManager) return;
+    
+    this._log(`Rebuilding topology at round ${this.currentRound + 1}...`);
+    
+    // Update agent registrations (in case needs/offers changed)
+    const agents = this.network.getAllAgents();
+    agents.forEach(agent => {
+      if (!this.topologyManager.agents.has(agent.id)) {
+        this.topologyManager.registerAgent(agent);
+      }
+    });
+    
+    // Rebuild topology
+    const previousGraph = this._getTopologySnapshot();
+    this.topologyManager.buildTopology();
+    const newGraph = this._getTopologySnapshot();
+    
+    // Record topology change
+    const change = {
+      round: this.currentRound + 1,
+      timestamp: Date.now(),
+      previous: previousGraph,
+      current: newGraph,
+      changed: JSON.stringify(previousGraph) !== JSON.stringify(newGraph)
+    };
+    
+    this.topologyHistory.push(change);
+    
+    if (change.changed) {
+      this._log('  Topology adapted to changing agent needs/offers');
+    }
+  }
+
+  /**
+   * Get a snapshot of the current topology
+   * @private
+   * @returns {Object} - Topology snapshot
+   */
+  _getTopologySnapshot() {
+    if (!this.topologyManager) return null;
+    
+    const snapshot = {};
+    for (const [agentId, neighbors] of this.topologyManager.graph.entries()) {
+      snapshot[agentId] = Array.from(neighbors);
+    }
+    return snapshot;
+  }
+
+  /**
+   * Get the current communication topology
+   * @returns {Object|null} - Current topology or null if disabled
+   */
+  getCurrentTopology() {
+    return this._getTopologySnapshot();
+  }
+
+  /**
+   * Get topology change history
+   * @returns {Object[]} - Array of topology changes
+   */
+  getTopologyHistory() {
+    return [...this.topologyHistory];
+  }
+
+  /**
+   * Check if two agents can communicate based on current topology
+   * @param {string} agentId1 - First agent ID
+   * @param {string} agentId2 - Second agent ID
+   * @returns {boolean} - True if agents can communicate
+   */
+  canCommunicate(agentId1, agentId2) {
+    if (!this.dynamicTopology || !this.topologyManager) {
+      // If dynamic topology disabled, all agents can communicate
+      return true;
+    }
+    
+    return this.topologyManager.areNeighbors(agentId1, agentId2);
+  }
+
+  /**
+   * Get valid communication partners for an agent
+   * @param {string} agentId - Agent ID
+   * @returns {string[]} - Array of agent IDs that can communicate with this agent
+   */
+  getCommunicationPartners(agentId) {
+    if (!this.dynamicTopology || !this.topologyManager) {
+      // If dynamic topology disabled, all other agents are valid
+      const allAgents = this.network.getAllAgents();
+      return allAgents.map(a => a.id).filter(id => id !== agentId);
+    }
+    
+    const neighbors = this.topologyManager.getNeighbors(agentId);
+    return neighbors ? Array.from(neighbors) : [];
+  }
+
+  /**
    * Execute a single negotiation round
    * @private
    * @returns {Object} - Round execution result
    */
   _executeRound() {
     this._log(`\n--- Round ${this.currentRound + 1} ---`);
+    
+    // Log current topology state if dynamic
+    if (this.dynamicTopology && this.topologyManager) {
+      const topology = this._getTopologySnapshot();
+      const edgeCount = Object.values(topology).reduce((sum, neighbors) => sum + neighbors.length, 0) / 2;
+      this._log(`  Current topology: ${Object.keys(topology).length} agents, ${edgeCount} connections`);
+    }
     
     // Create new round
     const round = new NegotiationRound(this.network, {
@@ -130,7 +274,8 @@ class NegotiationRunner {
       timestamp: Date.now(),
       messages: round.getMessages(),
       statistics: round.getStatistics(),
-      outcome: round.getOutcome()
+      outcome: round.getOutcome(),
+      topology: this.dynamicTopology ? this._getTopologySnapshot() : null
     });
     
     this._log(`Round ${this.currentRound + 1} complete:`);
@@ -274,7 +419,12 @@ class NegotiationRunner {
         remainingNeeds: agent.getNeeds(),
         historyLength: agent.getHistory().length
       })),
-      history: this.history
+      history: this.history,
+      topology: {
+        dynamicTopologyEnabled: this.dynamicTopology,
+        topologyChanges: this.topologyHistory.length,
+        finalTopology: this._getTopologySnapshot()
+      }
     };
     
     return this.result;
@@ -282,18 +432,17 @@ class NegotiationRunner {
 
   /**
    * Get current status
-   * @returns {string}
+   * @returns {Object} - Status object with topology info
    */
   getStatus() {
-    return this.status;
-  }
-
-  /**
-   * Get current round number
-   * @returns {number}
-   */
-  getCurrentRound() {
-    return this.currentRound;
+    return {
+      status: this.status,
+      currentRound: this.currentRound,
+      maxRounds: this.maxRounds,
+      dynamicTopology: this.dynamicTopology,
+      topologyChanges: this.topologyHistory.length,
+      currentTopology: this._getTopologySnapshot()
+    };
   }
 
   /**
@@ -308,6 +457,13 @@ class NegotiationRunner {
     this.endTime = null;
     this.result = null;
     this.strategies.clear();
+    this.topologyHistory = [];
+    
+    // Reset topology manager
+    if (this.topologyManager) {
+      this.topologyManager.graph.clear();
+      this.topologyManager.edgeWeights.clear();
+    }
     
     // Clear agent histories
     const agents = this.network.getAllAgents();
@@ -344,6 +500,11 @@ class NegotiationRunner {
       this.startTime = Date.now();
     }
     
+    // Rebuild topology if needed
+    if (this.dynamicTopology && this.currentRound % this.topologyRebuildInterval === 0) {
+      this._rebuildTopology();
+    }
+    
     const roundResult = this._executeRound();
     this.rounds.push(roundResult);
     this.currentRound++;
@@ -365,6 +526,7 @@ class NegotiationRunner {
       round: this.currentRound,
       status: this.status,
       result: roundResult,
+      topology: this._getTopologySnapshot(),
       isComplete: this.status === 'completed' || this.status === 'timeout'
     };
   }
@@ -381,7 +543,9 @@ class NegotiationRunner {
       timeout: this.timeout,
       duration: this.endTime ? this.endTime - this.startTime : null,
       rounds: this.rounds.length,
-      historyLength: this.history.length
+      historyLength: this.history.length,
+      dynamicTopology: this.dynamicTopology,
+      topologyChanges: this.topologyHistory.length
     };
   }
 }
