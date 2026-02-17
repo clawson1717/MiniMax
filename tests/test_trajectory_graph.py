@@ -312,7 +312,7 @@ class TestGetPrunableBranches:
         prunable = graph.get_prunable_branches()
         # s4 is a dead-end leaf
         # s3 has direct productive exit to s4 (outside cycle), so not prunable
-        # s1 and s2 are in cycle but don't have direct productive exits
+        # s1 and s2 are in cycle but don't have direct productive exits (may be prunable)
         assert s4 in prunable  # Dead end
         assert s3 not in prunable  # Has direct productive exit
 
