@@ -1,0 +1,12 @@
+python>=3.9
+dataclasses-json>=0.6.0
+typing-extensions>=4.8.0
+python-dateutil>=2.8.2
+
+[dev]
+pytest>=7.4.0
+pytest-cov>=4.1.0
+pytest-mock>=3.12.0
+black>=23.0.0
+mypy>=1.5.0
+ruff>=0.1.0

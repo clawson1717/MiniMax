@@ -1,0 +1,64 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pruned-adaptive-agent"
+version = "0.1.0"
+description = "Adaptive web agent with uncertainty quantification, trajectory pruning, and recovery"
+readme = "README.md"
+requires-python = ">=3.9"
+license = {text = "MIT"}
+authors = [
+    {name = "MiniMax Team", email = "team@minimax.io"}
+]
+keywords = ["agent", "web", "adaptive", "uncertainty", "recovery"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+]
+
+dependencies = [
+    "python >= 3.9",
+    "dataclasses-json >= 0.6.0",
+    "typing-extensions >= 4.8.0",
+    "python-dateutil >= 2.8.2",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest >= 7.4.0",
+    "pytest-cov >= 4.1.0",
+    "pytest-mock >= 3.12.0",
+    "black >= 23.0.0",
+    "mypy >= 1.5.0",
+    "ruff >= 0.1.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["src*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "-v --tb=short"
+
+[tool.black]
+line-length = 88
+target-version = ["py39", "py310", "py311"]
+
+[tool.mypy]
+python_version = "3.9"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false
+
+[tool.ruff]
+line-length = 88
+target-version = "py39"
