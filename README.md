@@ -1,145 +1,44 @@
-# Resilient Adaptive Agent (RAA)
+# Adaptive Skill Composer
 
-A web agent combining three ArXiv techniques: CATTS (dynamic compute allocation), Multi-Turn Attack resilience, and CM2 (checklist verification).
+An adaptive code agent that dynamically composes skills from a library based on task context, uses graph-based trajectory pruning to optimize skill execution sequences, and defends against adversarial skill manipulation attacks.
 
 ## Overview
 
-The Resilient Adaptive Agent is a sophisticated web automation agent that:
-- Dynamically allocates compute based on uncertainty (CATTS)
-- Detects and recovers from adversarial attacks
-- Uses fine-grained checklist verification (CM2)
-
-## Architecture
-
-```
-┌─────────────────────────────────────────────────────────────┐
-│                    RAA (Main Agent)                          │
-├─────────────────────────────────────────────────────────────┤
-│                                                              │
-│  ┌──────────────────┐  ┌──────────────────────────────────┐ │
-│  │  CATTSAllocator │  │    FailureModeDetector           │ │
-│  │  - allocate()    │  │    - Self-Doubt                 │ │
-│  │  - scaleUp/Down  │  │    - Social Conformity           │ │
-│  │  - shouldRequery│  │    - Suggestion Hijacking        │ │
-│  └──────────────────┘  │    - Emotional Susceptibility   │ │
-│                         │    - Reasoning Fatigue            │ │
-│  ┌──────────────────┐  └──────────────────────────────────┘ │
-│  │  ResilienceRecovery │                                    │
-│  │  - recoverFromX()  │  ┌────────────────────────────────┐ │
-│  │  - selectStrategy │  │  SelfVerificationSystem        │ │
-│  └──────────────────┘  │  - verifyAction()              │ │
-│                         │  - verifyNavigation()             │ │
-│  ┌──────────────────┐  └────────────────────────────────┘ │
-│  │  ChecklistReward  │                                       │
-│  │  - createChecklist│                                       │
-│  │  - getReward()    │                                       │
-│  └──────────────────┘                                       │
-└─────────────────────────────────────────────────────────────┘
-```
+Combines three ArXiv techniques:
+- **SkillsBench** - Skill composition and selection
+- **WebClipper** - Trajectory pruning for skill optimization
+- **Multi-Turn Attack Defense** - Adversarial skill protection
 
 ## Installation
 
 ```bash
-npm install
+pip install -r requirements.txt
 ```
 
-## Quick Start
+## Usage
 
-```javascript
-const { RAA, Agent } = require('./src');
+```python
+from src.skill import SkillLibrary, Skill, SkillResult, SkillCategory
 
-// Create an agent
-const agent = new RAA({
-  maxSteps: 20,
-  verbose: true
-});
+# Create a skill
+class MySkill(Skill):
+    def _create_metadata(self):
+        return SkillMetadata(
+            name="my_skill",
+            description="My custom skill",
+            category=SkillCategory.UTILITY
+        )
+    
+    def execute(self, context):
+        return SkillResult(success=True, output="done")
 
-// Run a task
-const result = await agent.runTask({
-  url: 'https://example.com',
-  actions: [
-    { type: 'navigate', url: 'https://example.com' },
-    { type: 'click', selector: '#search' },
-    { type: 'type', selector: '#query', text: 'test' }
-  ]
-});
-```
-
-## Components
-
-### CATTSAllocator
-Dynamic compute allocation using uncertainty statistics.
-
-```javascript
-const { CATTSAllocator } = require('./src');
-const allocator = new CATTSAllocator();
-const depth = allocator.allocateCompute(uncertaintyTracker);
-```
-
-### FailureModeDetector
-Detects 5 adversarial attack patterns.
-
-```javascript
-const { FailureModeDetector } = require('./src');
-const detector = new FailureModeDetector();
-detector.analyzeTurn({ userInput: '...', agentResponse: '...', confidence: 0.8 });
-const report = detector.getFailureReport();
-```
-
-### ResilienceRecovery
-Recovery strategies for each failure mode.
-
-```javascript
-const { ResilienceRecovery } = require('./src');
-const recovery = new ResilienceRecovery();
-const result = recovery.recoverFromSelfDoubt({ currentConfidence: 0.5 });
-```
-
-### ChecklistReward
-Fine-grained binary verification.
-
-```javascript
-const { ChecklistReward } = require('./src');
-const checklist = new ChecklistReward();
-const id = checklist.createChecklist('navigation');
-checklist.evaluateCriterion(id, 'url_reachable', true);
-const reward = checklist.getReward(id);
-```
-
-### SelfVerification
-Atomic verification after each action.
-
-```javascript
-const { SelfVerification } = require('./src');
-const verifier = new SelfVerification();
-const result = verifier.verifyAction(action, actionResult, context);
-```
-
-## CLI Usage
-
-```bash
-# Run a task
-node src/cli.js run --config config.json
-
-# Initialize config
-node src/cli.js init
-
-# Show status
-node src/cli.js status
+# Register and use
+library = SkillLibrary()
+library.register(MySkill())
 ```
 
 ## Testing
 
 ```bash
-npm test
+pytest tests/
 ```
-
-## ArXiv Sources
-
-- **CATTS**: Agentic Test-Time Scaling - Dynamic compute allocation via uncertainty
-- **Multi-Turn Attacks**: Consistency of LLMs under adversarial attacks
-- **CM2**: Checklist Rewards for RL - Fine-grained binary verification
-
-## License
-
-MIT
