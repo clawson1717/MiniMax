@@ -186,10 +186,10 @@ class AgentNetwork {
     const neighbors = this.topology.getNeighbors(from);
     let sentCount = 0;
     
-    for (const neighbor of neighbors) {
+    for (const neighborId of neighbors) {
       const success = this.send({
         from,
-        to: neighbor.id,
+        to: neighborId,
         ...message
       });
       if (success) sentCount++;

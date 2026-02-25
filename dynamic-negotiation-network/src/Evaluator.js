@@ -117,6 +117,11 @@ class Evaluator {
     
     const { agentResults, statistics } = negotiationResult;
     
+    // Handle undefined or empty agentResults
+    if (!agentResults || !Array.isArray(agentResults) || agentResults.length === 0) {
+      return false;
+    }
+    
     // All agents satisfied
     const allSatisfied = agentResults.every(a => a.needsSatisfied);
     

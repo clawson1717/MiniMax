@@ -203,6 +203,23 @@ class CounterStrategy {
     const matchedNeed = this._findMatchingNeed(offer, agentNeeds);
     
     if (matchedNeed && matchedNeed.score >= this.counterThreshold) {
+      // Check for numeric gap before accepting
+      const numericGap = this._calculateNumericGap(agentOffers, offer);
+      
+      // If there's a significant numeric gap, counter instead of accepting
+      if (numericGap !== null && numericGap > 0) {
+        const counterOffer = this._generateCounterOffer(agentOffers, offer);
+        if (counterOffer) {
+          return {
+            action: 'counter',
+            reason: `Counter-offer generated due to numeric gap (${numericGap})`,
+            counterOffer,
+            originalOffer: offer,
+            confidence: 0.5 - (this.roundCount * this.concessionRate)
+          };
+        }
+      }
+      
       // Offer is good enough - accept
       return {
         action: 'accept',
@@ -231,6 +248,21 @@ class CounterStrategy {
       reason: 'No suitable counter-offer available',
       confidence: 0.3
     };
+  }
+
+  /**
+   * Calculate numeric gap between agent's offers and incoming offer
+   * @private
+   */
+  _calculateNumericGap(agentOffers, incomingOffer) {
+    if (!agentOffers || agentOffers.length === 0) return null;
+    
+    const incomingValue = this._extractNumericValue(incomingOffer);
+    const agentValue = this._extractNumericValue(agentOffers[0]);
+    
+    if (incomingValue === null || agentValue === null) return null;
+    
+    return agentValue - incomingValue;
   }
 
   /**

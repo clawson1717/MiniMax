@@ -16,9 +16,9 @@ class Agent {
    */
   constructor(id, options = {}) {
     this.id = id;
-    this.needs = options.needs || [];
-    this.offers = options.offers || [];
-    this.beliefs = options.beliefs || {};
+    this.needs = [...(options.needs || [])];
+    this.offers = [...(options.offers || [])];
+    this.beliefs = { ...(options.beliefs || {}) };
     this.history = [];
     this.strategy = options.strategy || 'default';
     this.utility = options.utility || 1.0;

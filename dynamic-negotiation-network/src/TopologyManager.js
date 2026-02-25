@@ -430,6 +430,7 @@ class DynamicTopologyManager {
    * Reset the topology
    */
   reset() {
+    this.agents.clear();
     this.graph.clear();
     this.edgeWeights.clear();
     this.topologyHistory = [];
