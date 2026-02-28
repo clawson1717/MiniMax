@@ -1,0 +1,6 @@
+numpy
+pytest
+pytest-cov
+torch
+transformers
+networkx
