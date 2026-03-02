@@ -5,6 +5,7 @@ from src.graph import TrajectoryGraph
 from src.verifier import ChecklistVerifier, VerificationResult
 from src.detector import FailureModeDetector, DetectionResult
 from src.backtrack import Backtracker
+from src.pruning import PruningPolicy
 
 @dataclass
 class CascadeState:
@@ -24,11 +25,13 @@ class CascadeEngine:
                  graph: TrajectoryGraph, 
                  verifier: ChecklistVerifier, 
                  detector: FailureModeDetector,
-                 backtracker: Optional[Backtracker] = None):
+                 backtracker: Optional[Backtracker] = None,
+                 pruning_policy: Optional[PruningPolicy] = None):
         self.graph = graph
         self.verifier = verifier
         self.detector = detector
         self.backtracker = backtracker or Backtracker()
+        self.pruning_policy = pruning_policy
         self.state = CascadeState()
 
     def set_start_node(self, node_id: str):
@@ -44,7 +47,8 @@ class CascadeEngine:
         Steps:
         1. Verify checklist.
         2. Detect failure modes.
-        3. Decide next action (proceed, prune, or backtrack).
+        3. Consult pruning policy.
+        4. Decide next action (proceed, prune, or backtrack).
         """
         if not self.state.current_node_id:
             raise ValueError("No current node set. Call set_start_node first.")
@@ -66,13 +70,24 @@ class CascadeEngine:
         action = "proceed"
         next_node_id = None
 
-        if v_result.overall_status == NodeStatus.FAILED or any_failure_detected:
-            # Node failed verification or a failure mode was detected
-            node.status = NodeStatus.FAILED
+        # Check pruning policy first for cycle or unproductive branch
+        should_prune = False
+        if self.pruning_policy:
+            pruning_decision = self.pruning_policy.decide_prune_vs_backtrack(node_id, self.graph)
+            if pruning_decision == "prune":
+                should_prune = True
+
+        if v_result.overall_status == NodeStatus.FAILED or any_failure_detected or should_prune:
+            # Node failed verification, a failure mode was detected, or policy says prune
+            node.status = NodeStatus.FAILED if not should_prune else NodeStatus.PRUNED
             self.state.failed_nodes.add(node_id)
             
             # Action: Prune this branch and try to backtrack/find alternative
-            self.graph.prune_branch(node_id)
+            if self.pruning_policy:
+                self.pruning_policy.apply_pruning(node_id, self.graph)
+            else:
+                self.graph.prune_branch(node_id)
+                
             self.state.pruned_branches.add(node_id)
             
             # Backtrack using Backtracker
