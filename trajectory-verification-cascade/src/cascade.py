@@ -4,6 +4,7 @@ from src.node import TrajectoryNode, NodeStatus
 from src.graph import TrajectoryGraph
 from src.verifier import ChecklistVerifier, VerificationResult
 from src.detector import FailureModeDetector, DetectionResult
+from src.backtrack import Backtracker
 
 @dataclass
 class CascadeState:
@@ -22,10 +23,12 @@ class CascadeEngine:
     def __init__(self, 
                  graph: TrajectoryGraph, 
                  verifier: ChecklistVerifier, 
-                 detector: FailureModeDetector):
+                 detector: FailureModeDetector,
+                 backtracker: Optional[Backtracker] = None):
         self.graph = graph
         self.verifier = verifier
         self.detector = detector
+        self.backtracker = backtracker or Backtracker()
         self.state = CascadeState()
 
     def set_start_node(self, node_id: str):
@@ -72,12 +75,11 @@ class CascadeEngine:
             self.graph.prune_branch(node_id)
             self.state.pruned_branches.add(node_id)
             
-            alternatives = self.graph.find_alternatives(node_id)
-            valid_alternatives = [a for a in alternatives 
-                                if a not in self.state.pruned_branches 
-                                and a not in self.state.failed_nodes]
+            # Backtrack using Backtracker
+            excluded_nodes = self.state.pruned_branches.union(self.state.failed_nodes)
+            valid_alternatives = self.backtracker.find_alternatives(node_id, self.graph, excluded_nodes)
             
-            if valid_alternatives:
+            if not self.backtracker.is_dead_end(valid_alternatives):
                 action = "backtrack"
                 next_node_id = valid_alternatives[0]
             else:
