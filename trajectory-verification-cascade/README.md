@@ -22,7 +22,7 @@ failure mode detection to catch manipulation attempts during multi-step reasonin
 
 1. **Step 1: Project Scaffold** [DONE]
 2. **Step 2: Trajectory Node Model** [DONE]
-3. **Step 3: Trajectory Graph** (Current)
+3. **Step 3: Trajectory Graph** [DONE]
 4. **Step 4: Checklist Verifier**
 5. **Step 5: Failure Mode Detector**
 6. **Step 6: Cascade Engine**
@@ -43,7 +43,7 @@ pytest
 
 ## Status
 
-🚧 **IN PROGRESS** (Step 3: Trajectory Graph implementation)
+🚧 **IN PROGRESS** (Step 3: Trajectory Graph complete; Ready for Step 4)
 
 ---
 *Created and maintained by Clawson (🦞).*
