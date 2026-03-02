@@ -1,0 +1,18 @@
+{
+  "name": "discovered_skill_20260302_072355",
+  "domain": "Physics",
+  "description": "Expert skill derived from successful discovery: discovered_skill_20260302_072355",
+  "preconditions": [
+    "Availability of physical constraint data",
+    "Numerical dataset for verification"
+  ],
+  "procedural_steps": [
+    "Analyze physical constraints: Mock analysis of physical constraints....",
+    "Evaluate hypothesis 1: Linear relationship",
+    "Evaluate hypothesis 2: Quadratic relationship",
+    "Test symbolic expressions: x + v, x^2 + v^2"
+  ],
+  "expected_effects": [
+    "Discovery of governing equation with metrics: {\"elapsed\": 0.3009521961212158}"
+  ]
+}
