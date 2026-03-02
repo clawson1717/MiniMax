@@ -1,0 +1,38 @@
+{
+    "domain": "MedicalQA",
+    "timestamp": "2026-02-24T14:36:28.605468",
+    "results": [
+        {
+            "query": "What are the contraindications for administering drug X in a patient with hypertension?",
+            "avg_accuracy_improvement": 0.0,
+            "convergence_stability": 0.0,
+            "avg_sample_efficiency": null,
+            "runs": [
+                {
+                    "run_id": 0,
+                    "initial_gap": 0.0,
+                    "final_gap": 0.0,
+                    "improvement": 0.0,
+                    "queries_to_target": null,
+                    "final_consensus": "[cardiology]: Step-by-step reasoning for 'Query: What are the contraindications for administering drug X in a patient with hypertension?\n\nShared Blackboard:\n' in the cardiology domain using context: [MOCK CONTEXT FOR CARDIOLOGY]: Related statutes or clinical guidelines for 'Query: What are the contraindications for administering drug X in a patient with hypertension?\n\nShared Blackboard:\n'.\n\n[pharmacy]: Step-by-step reasoning for 'Query: What are the contraindications for administering drug X in a patient with hypertension?\n\nShared Blackboard:\n[cardiology]: Step-by-step reasoning for 'Query: What are the contraindications for administering drug X in a patient with hypertension?\n\nShared Blackboard:\n' in the cardiology domain using context: [MOCK CONTEXT FOR CARDIOLOGY]: Related statutes or clinical guidelines for 'Query: What are the contraindications for administering drug X in a patient with hypertension?\n\nShared Blackboard:\n'.' in the pharmacy domain using context: [MOCK CONTEXT FOR PHARMACY]: Related statutes or clinical guidelines for 'Query: What are the contraindications for administering drug X in a patient with hypertension?\n\nShared Blackboard:\n[cardiology]: Step-by-step reasoning for 'Query: What are the contraindications for administering drug X in a patient with hypertension?\n\nShared Blackboard:\n' in the cardiology domain using context: [MOCK CONTEXT FOR CARDIOLOGY]: Related statutes or clinical guidelines for 'Query: What are the contraindications for administering drug X in a patient with hypertension?\n\nShared Blackboard:\n'.'."
+                },
+                {
+                    "run_id": 1,
+                    "initial_gap": 0.0,
+                    "final_gap": 0.0,
+                    "improvement": 0.0,
+                    "queries_to_target": null,
+                    "final_consensus": "[cardiology]: Step-by-step reasoning for 'Query: What are the contraindications for administering drug X in a patient with hypertension?\n\nShared Blackboard:\n' in the cardiology domain using context: [MOCK CONTEXT FOR CARDIOLOGY]: Related statutes or clinical guidelines for 'Query: What are the contraindications for administering drug X in a patient with hypertension?\n\nShared Blackboard:\n'.\n\n[pharmacy]: Step-by-step reasoning for 'Query: What are the contraindications for administering drug X in a patient with hypertension?\n\nShared Blackboard:\n[cardiology]: Step-by-step reasoning for 'Query: What are the contraindications for administering drug X in a patient with hypertension?\n\nShared Blackboard:\n' in the cardiology domain using context: [MOCK CONTEXT FOR CARDIOLOGY]: Related statutes or clinical guidelines for 'Query: What are the contraindications for administering drug X in a patient with hypertension?\n\nShared Blackboard:\n'.' in the pharmacy domain using context: [MOCK CONTEXT FOR PHARMACY]: Related statutes or clinical guidelines for 'Query: What are the contraindications for administering drug X in a patient with hypertension?\n\nShared Blackboard:\n[cardiology]: Step-by-step reasoning for 'Query: What are the contraindications for administering drug X in a patient with hypertension?\n\nShared Blackboard:\n' in the cardiology domain using context: [MOCK CONTEXT FOR CARDIOLOGY]: Related statutes or clinical guidelines for 'Query: What are the contraindications for administering drug X in a patient with hypertension?\n\nShared Blackboard:\n'.'."
+                },
+                {
+                    "run_id": 2,
+                    "initial_gap": 0.0,
+                    "final_gap": 0.0,
+                    "improvement": 0.0,
+                    "queries_to_target": null,
+                    "final_consensus": "[cardiology]: Step-by-step reasoning for 'Query: What are the contraindications for administering drug X in a patient with hypertension?\n\nShared Blackboard:\n' in the cardiology domain using context: [MOCK CONTEXT FOR CARDIOLOGY]: Related statutes or clinical guidelines for 'Query: What are the contraindications for administering drug X in a patient with hypertension?\n\nShared Blackboard:\n'.\n\n[pharmacy]: Step-by-step reasoning for 'Query: What are the contraindications for administering drug X in a patient with hypertension?\n\nShared Blackboard:\n[cardiology]: Step-by-step reasoning for 'Query: What are the contraindications for administering drug X in a patient with hypertension?\n\nShared Blackboard:\n' in the cardiology domain using context: [MOCK CONTEXT FOR CARDIOLOGY]: Related statutes or clinical guidelines for 'Query: What are the contraindications for administering drug X in a patient with hypertension?\n\nShared Blackboard:\n'.' in the pharmacy domain using context: [MOCK CONTEXT FOR PHARMACY]: Related statutes or clinical guidelines for 'Query: What are the contraindications for administering drug X in a patient with hypertension?\n\nShared Blackboard:\n[cardiology]: Step-by-step reasoning for 'Query: What are the contraindications for administering drug X in a patient with hypertension?\n\nShared Blackboard:\n' in the cardiology domain using context: [MOCK CONTEXT FOR CARDIOLOGY]: Related statutes or clinical guidelines for 'Query: What are the contraindications for administering drug X in a patient with hypertension?\n\nShared Blackboard:\n'.'."
+                }
+            ]
+        }
+    ]
+}

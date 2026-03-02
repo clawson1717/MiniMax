@@ -1,0 +1,13 @@
+{
+  "strategies_compared": [
+    "info_efficient",
+    "uniform",
+    "uncertainty_based"
+  ],
+  "accuracy_comparison": {
+    "info_efficient": 0.1,
+    "uniform": 0.13333333333333333,
+    "uncertainty_based": 0.06666666666666667
+  },
+  "summary": "Comparative Evaluation Summary\n========================================\n\nINFO_EFFICIENT:\n  Accuracy: 10.00%\n  Tokens: 749\n  Quality Score: 0.313\n\nUNIFORM:\n  Accuracy: 13.33%\n  Tokens: 739\n  Quality Score: 0.348\n\nUNCERTAINTY_BASED:\n  Accuracy: 6.67%\n  Tokens: 812\n  Quality Score: 0.290\n\nWinners by Metric:\n  accuracy: uniform\n  token_efficiency: uniform\n  quality: uniform"
+}

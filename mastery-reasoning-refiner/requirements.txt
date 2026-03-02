@@ -1,0 +1,10 @@
+torch
+transformers
+accelerate
+bitsandbytes
+peft
+datasets
+trl
+numpy
+pandas
+pytest

@@ -1,0 +1,7 @@
+project_name: "adversarial-domain-diffuser"
+version: "0.1.0"
+agents:
+  - name: "AdversarialGenerator"
+    role: "Question Generation"
+  - name: "DiffusionCoordinator"
+    role: "Multi-Agent Coordination"

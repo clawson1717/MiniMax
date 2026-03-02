@@ -1,0 +1,9 @@
+torch
+transformers
+numpy
+sympy
+pydantic
+pytest
+accelerate
+bitsandbytes
+peft
