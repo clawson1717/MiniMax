@@ -22,3 +22,5 @@ class TrajectoryNode:
     status: NodeStatus = NodeStatus.PENDING
     parent_id: Optional[str] = None
     children_ids: List[str] = field(default_factory=list)
+    score: float = 0.0
+    confidence: float = 0.0
