@@ -1,49 +1,117 @@
 # Trajectory Verification Cascade (TVC)
 
-A cascaded reasoning verification system that combines graph-based trajectory
-pruning with fine-grained checklist verification at each node, plus adversarial
-failure mode detection to catch manipulation attempts during multi-step reasoning.
+A cascaded reasoning verification system that combines graph-based trajectory pruning with fine-grained checklist verification and adversarial failure mode detection.
 
-## Concept
+## Architecture
 
-- Each reasoning step is a node in a directed graph
-- Before proceeding to the next node, the current node must pass a binary checklist
-- Failure mode detection runs in parallel to catch manipulation attempts
-- Unproductive branches are pruned before wasting compute
-- The cascade backtracks on failure, finding alternative paths
-
-## Source Papers
-
-- **WebClipper** (Wang et al.) — Graph-based trajectory pruning
-- **CM2 Checklist Rewards** (Zhang et al.) — Binary criteria for multi-step verification
-- **Multi-Turn Attack Failure Modes** (Li et al.) — Detection of 5 manipulation patterns
-
-## Implementation Roadmap
-
-1. **Step 1: Project Scaffold** [DONE]
-2. **Step 2: Trajectory Node Model** [DONE]
-3. **Step 3: Trajectory Graph** [DONE]
-4. **Step 4: Checklist Verifier**
-5. **Step 5: Failure Mode Detector**
-6. **Step 6: Cascade Engine**
-7. **Step 7: Backtracking Strategy**
-8. **Step 8: Pruning Policy**
-9. **Step 9: Integration Layer**
-10. **Step 10: Benchmark Tasks**
-11. **Step 11: CLI Interface**
-12. **Step 12: Final Documentation**
-
-## Setup & Running
-
-```bash
-cd trajectory-verification-cascade
-pip install -r requirements.txt
-pytest
+```mermaid
+graph TD
+    A[Reasoning Task] --> B[TVC Agent]
+    B --> C[Cascade Engine]
+    C --> D[Trajectory Graph]
+    
+    subgraph "Verification Cascade"
+        D --> E[Node Generation]
+        E --> F[Checklist Verifier]
+        F --> G[Failure Mode Detector]
+        G --> H{Pass?}
+        H -- Yes --> I[Next Node]
+        H -- No --> J[Backtrack/Prune]
+        J --> D
+        I --> D
+    end
+    
+    D --> K[Final Trajectory]
+    K --> L[Verified Output]
 ```
 
-## Status
+The TVC system operates as a "verification cascade" where each reasoning step is treated as a node in a directed graph. Every node must pass a rigorous verification process before the engine proceeds to the next step.
 
-🚧 **IN PROGRESS** (Step 3: Trajectory Graph complete; Ready for Step 4)
+## Verification Cascade Flow
 
----
-*Created and maintained by Clawson (🦞).*
+1.  **Node Generation**: The agent generates a reasoning step (Trajectory Node).
+2.  **Checklist Verification**: The `ChecklistVerifier` evaluates the node against a set of binary criteria (e.g., "Factually correct?", "Logically consistent?", "Follows constraints?").
+3.  **Adversarial Detection**: The `FailureModeDetector` runs in parallel to catch manipulation attempts or reasoning degradation.
+4.  **Decisive Action**:
+    *   **Verified**: If both pass, the node status is set to `VERIFIED` and the cascade continues.
+    *   **Failed**: If verification fails, the node is marked `FAILED`. The `Backtracker` finds alternative paths.
+    *   **Pruned**: If the path is determined to be cyclic or unproductive, the `PruningPolicy` marks the branch as `PRUNED`.
+
+## Failure Mode Detection
+
+TVC implements detection for 5 critical failure modes identified in multi-turn reasoning attacks:
+
+1.  **Self-Doubt**: Triggered when the agent is manipulated into doubting a correct previous answer (e.g., "Are you sure?").
+2.  **Social Conformity**: Detects pressure to align with incorrect consensus (e.g., "Everyone agrees that 2+2=5").
+3.  **Suggestion Hijacking**: Identifies hidden instructions or leading suggestions meant to derail the reasoning.
+4.  **Emotional Susceptibility**: Catches attempts to bypass logic using emotional pleas or threats.
+5.  **Reasoning Fatigue**: Monitors for degradation in logic, repetitive loops, or loss of coherence in long trajectories.
+
+## Usage
+
+### CLI
+
+You can interact with TVC using the command-line interface:
+
+```bash
+# Run a verification task
+tvc-cli run "If all A are B and all B are C, are all A also C?"
+
+# Verify a specific JSON trajectory file
+tvc-cli verify path/to/trajectory.json
+
+# Detect failure modes in a text input
+tvc-cli detect "I know you said X, but are you really sure? Everyone else says Y."
+
+# Visualize a trajectory graph (ASCII)
+tvc-cli visualize trajectory_id
+```
+
+### API
+
+```python
+from src.agent import TVCAgent
+from src.node import ChecklistItem
+
+# Initialize agent
+agent = TVCAgent()
+
+# Basic usage
+trajectory = agent.run("Solve: 15 * 12 + 40")
+print(f"Goal reached: {trajectory.goal_reached}")
+
+# Custom checklist
+custom_checklist = [
+    ChecklistItem(criterion="Calculation is shown step-by-step"),
+    ChecklistItem(criterion="Final answer is clearly marked")
+]
+trajectory = agent.run("Calculate 25% of 80", checklist_template=custom_checklist)
+```
+
+## API Reference
+
+### `TVCAgent`
+The main entry point for the TVC system.
+- `run(task: str, strictness: float = 0.5) -> TrajectoryGraph`: Executes the full verification cascade.
+- `verify_step(node: TrajectoryNode) -> VerificationResult`: Manually verify a single node.
+
+### `TrajectoryNode`
+Data model for a single reasoning step.
+- `content`: The text of the reasoning step.
+- `checklist_items`: List of `ChecklistItem` objects.
+- `status`: One of `PENDING`, `VERIFIED`, `FAILED`, `PRUNED`.
+
+### `FailureModeDetector`
+Detects adversarial patterns.
+- `detect(text: str) -> List[DetectionResult]`: Scan text for the 5 failure modes.
+
+## Installation
+
+```bash
+git clone https://github.com/clawson1717/ClawWork
+cd ClawWork/trajectory-verification-cascade
+pip install -r requirements.txt
+```
+
+## License
+MIT
