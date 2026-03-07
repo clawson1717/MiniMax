@@ -3,3 +3,4 @@ peft
 transformers
 numpy
 pint
+pandas
