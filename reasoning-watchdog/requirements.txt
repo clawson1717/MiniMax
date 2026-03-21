@@ -1,0 +1,3 @@
+networkx
+pydantic
+numpy
