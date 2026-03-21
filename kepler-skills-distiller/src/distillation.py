@@ -154,6 +154,13 @@ class MasteryDataset(Dataset):
             logger.warning(f"Data file not found: {self.data_path}")
             return
         
+        # Check if data_path is a directory (Issue #71)
+        if self.data_path.is_dir():
+            raise ValueError(
+                f"Expected a file path, got a directory: {self.data_path}. "
+                f"Please provide a path to a JSONL file (e.g., data/training.jsonl)"
+            )
+        
         with open(self.data_path, "r") as f:
             for line in f:
                 if line.strip():
