@@ -11,16 +11,16 @@ CAD-TRACE is designed to solve the "Hallucination Spiral" in complex multi-agent
 - **Sensing-Regulating-Correcting (SRC):** Uncertainty-aware denoising to pinpoint and correct "Broken" branches in the causal graph.
 
 ## 🗺️ Roadmap
-- [ ] **Step 1:** Project Scaffold
-- [ ] **Step 2:** Causal Interaction Payload
-- [ ] **Step 3:** Drift-Sensing Adversary
-- [ ] **Step 4:** Live Causal DIG Tracker
-- [ ] **Step 5:** Semantic Drift Calculator
-- [ ] **Step 6:** Uncertainty Flow Senser
-- [ ] **Step 7:** Regulator of Truth-Resilience
-- [ ] **Step 8:** Corrective Logic Healer
-- [ ] **Step 9:** CAD-TRACE Monitor Agent
-- [ ] **Step 10:** Adversarial Drift Benchmark
+- [x] **Step 1:** Project Scaffold
+- [x] **Step 2:** Causal Interaction Payload
+- [x] **Step 3:** Drift-Sensing Adversary
+- [x] **Step 4:** Live Causal DIG Tracker
+- [x] **Step 5:** Semantic Drift Calculator
+- [x] **Step 6:** Uncertainty Flow Senser
+- [x] **Step 7:** Regulator of Truth-Resilience
+- [x] **Step 8:** Corrective Logic Healer
+- [x] **Step 9:** CAD-TRACE Monitor Agent
+- [x] **Step 10:** Adversarial Drift Benchmark
 - [ ] **Step 11:** Plotly Drift Visualizer
 - [ ] **Step 12:** Documentation & Final PR
 
