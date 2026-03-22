@@ -53,3 +53,13 @@ class PhysicsEngine:
             'R0': (-R_L).to(self.ureg.newton), # Reaction at 0
             'RL': (-R_R).to(self.ureg.newton)  # Reaction at L
         }
+
+    def calculate_max_moment(self, load, length):
+        """
+        Calculates max moment for a simply supported beam with a central point load.
+        """
+        P = self.ureg(str(load) + "N")
+        L = self.ureg(str(length) + "m")
+        # For a simply supported beam with a central load: Max Moment = PL/4
+        M = (P * L) / 4
+        return float(M.to(self.ureg.newton * self.ureg.meter).magnitude)

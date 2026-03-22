@@ -1,4 +1,9 @@
 import sys
+import os
+
+# Ensure src is in the python path
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+
 from engine import PhysicsEngine
 from model_wrapper import DraftWrapper
 import time
