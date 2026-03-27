@@ -60,7 +60,7 @@ An agent framework that doesn't just detect and recover from reasoning failuresâ
 ## Implementation Roadmap
 
 - [x] Step 1: Project Scaffold (DONE)
-- [ ] Step 2: Failure Event Record
+- [x] Step 2: Failure Event Record (DONE)
 - [ ] Step 3: Diagnostic Engine
 - [ ] Step 4: Recovery Strategy Library
 - [ ] Step 5: Self-Healing Loop
