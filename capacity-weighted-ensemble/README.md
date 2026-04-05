@@ -27,8 +27,8 @@ CWTTE implements a novel "inverse uncertainty" scaling mechanism. Instead of all
 5. **Step 5: Uncertainty Estimator** [DONE]
 6. **Step 6: Test-Time Compute Allocator** [DONE]
 7. **Step 7: Base Ensemble Agent** [DONE]
-8. **Step 8: Capacity-Weighted Voting**
-9. **Step 9: Pruned Ensemble Coordinator**
+8. **Step 8: Capacity-Weighted Voting** [DONE]
+9. **Step 9: Pruned Ensemble Coordinator** [DONE]
 10. **Step 10: Benchmark Tasks**
 11. **Step 11: CLI Interface**
 12. **Step 12: Documentation & Demo**
