@@ -10,7 +10,7 @@ An advanced multi-agent orchestration framework that combines graph-based reason
 
 ## 12-Step Implementation Roadmap
 
-1. **Project Scaffold [ ]** 
+1. **Project Scaffold [DONE]** 
 2. **Task Node & Graph Model [ ]** 
 3. **Architect Agent (Decomposition) [ ]** 
 4. **Policy Controller (Orchestrator) [ ]** 
