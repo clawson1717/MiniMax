@@ -7,7 +7,7 @@ Web automation agent with built-in adversarial reasoning defense.
 - [x] Step 1: Project Scaffold
 - [x] Step 2: Base WebAgent Implementation
 - [x] Step 3: Trajectory Graph Builder
-- [ ] Step 4: Graph Pruner
+- [x] Step 4: Graph Pruner
 - [ ] Step 5: Skills Loader
 - [ ] Step 6: Skills Selector
 - [ ] Step 7: Consistency Monitor
@@ -22,4 +22,4 @@ Web automation agent with built-in adversarial reasoning defense.
 - [ ] Step 16: Benchmarking
 
 ## Current Status
-Step 3 Complete. `TrajectoryGraph` implementation verified with tests for cycle and repeated state handling.
+Step 4 Complete. `TrajectoryPruner` detects cycles (Tarjan SCC) and dead branches (unreachable-from-goal BFS), with 9 passing tests.
