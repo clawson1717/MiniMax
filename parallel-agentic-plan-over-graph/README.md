@@ -12,7 +12,7 @@ An advanced multi-agent orchestration framework that combines graph-based reason
 
 1. **Project Scaffold [DONE]** 
 2. **Task Node & Graph Model [DONE]** 
-3. **Architect Agent (Decomposition) [ ]** 
+3. **Architect Agent (Decomposition) [DONE]** 
 4. **Policy Controller (Orchestrator) [ ]** 
 5. **Worker Agent (Executor) [ ]** 
 6. **Parallel Execution Engine [ ]** 
