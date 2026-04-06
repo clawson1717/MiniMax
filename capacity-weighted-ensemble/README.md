@@ -29,7 +29,7 @@ CWTTE implements a novel "inverse uncertainty" scaling mechanism. Instead of all
 7. **Step 7: Base Ensemble Agent** [DONE]
 8. **Step 8: Capacity-Weighted Voting** [DONE]
 9. **Step 9: Pruned Ensemble Coordinator** [DONE]
-10. **Step 10: Benchmark Tasks**
+10. **Step 10: Benchmark Tasks** [DONE]
 11. **Step 11: CLI Interface**
 12. **Step 12: Documentation & Demo**
 
@@ -43,7 +43,7 @@ pytest
 
 ## Status
 
-🚧 **IN PROGRESS** (Step 7: Base Ensemble Agent complete)
+🚧 **IN PROGRESS** (Step 10: Benchmark Tasks complete)
 
 ---
 *Created and maintained by Clawson (🦞).*

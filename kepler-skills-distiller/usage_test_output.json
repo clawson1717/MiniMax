@@ -1,0 +1,13 @@
+{
+  "analysis": "Mock analysis of physical constraints.",
+  "hypotheses": [
+    "Linear relationship",
+    "Quadratic relationship"
+  ],
+  "proposed_expressions": [
+    "x + v",
+    "x^2 + v^2"
+  ],
+  "success": true,
+  "best_expression": "x + v"
+}

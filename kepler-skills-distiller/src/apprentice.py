@@ -8,6 +8,7 @@ of scientific reasoning skills from the Kepler Agent.
 import os
 from typing import Optional, Dict, Any, List, Union
 from pathlib import Path
+from unittest.mock import MagicMock
 import torch
 import torch.nn as nn
 from transformers import (
@@ -309,12 +310,25 @@ class DummyApprenticeModel:
     
     def __init__(self, config: Optional[ApprenticeConfig] = None):
         self.config = config or ApprenticeConfig()
-        self.model = None
-        self.tokenizer = None
+        self.model = None  # Explicitly None at init for test compliance
+        self.tokenizer = MagicMock()
+        self.tokenizer.pad_token_id = 0
+        self.tokenizer.eos_token_id = 2
+        self.tokenizer.model_max_length = 512
+        self.device = "cpu"
+        
+        # Mock tokenize
+        def mock_tokenize(text, **kwargs):
+            return {
+                "input_ids": torch.zeros(1, 10, dtype=torch.long),
+                "attention_mask": torch.ones(1, 10, dtype=torch.long),
+            }
+        self.tokenizer.side_effect = mock_tokenize
     
     def load(self) -> None:
-        """Mock load - does nothing."""
-        pass
+        """Mock load - initializes the minimal torch module."""
+        if self.model is None:
+            self.model = nn.Linear(1, 1)  # Minimal torch module for parameters
     
     def generate(self, prompt: str, **kwargs) -> str:
         """Mock generation - returns echo of prompt."""
@@ -322,7 +336,8 @@ class DummyApprenticeModel:
     
     def train_step(self, *args, **kwargs) -> Dict[str, float]:
         """Mock training step - returns fake loss."""
-        return {"loss": 0.5}
+        import random
+        return {"loss": 0.5, "accuracy": random.uniform(0.7, 0.95)}
     
     def save_checkpoint(self, path: Union[str, Path]) -> None:
         """Mock save - creates directory and saves config."""

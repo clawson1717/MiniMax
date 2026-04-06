@@ -1,0 +1,38 @@
+{
+    "domain": "MedicalQA",
+    "timestamp": "2026-03-04T17:52:18.809750",
+    "results": [
+        {
+            "query": "What are the contraindications for administering drug X in a patient with hypertension?",
+            "avg_accuracy_improvement": 0.0,
+            "convergence_stability": 0.0,
+            "avg_sample_efficiency": null,
+            "runs": [
+                {
+                    "run_id": 0,
+                    "initial_gap": 0.9475,
+                    "final_gap": 0.9475,
+                    "improvement": 0.0,
+                    "queries_to_target": null,
+                    "final_consensus": "[cardiology]: Step-by-step reasoning for 'Query: What are the contraindications for administering drug X in a patient with hypertension?\n\nShared Blackboard:\n' in the cardiology domain.\n\n\n[pharmacy]: Step-by-step reasoning for 'Query: What are the contraindications for administering drug X in a patient with hypertension?\n\nShared Blackboard:\n[cardiology]: Step-by-step reasoning for 'Query: What are the contraindications for administering drug X in a patient with hypertension?\n\nShared Blackboard:\n' in the cardiology domain.\n' in the pharmacy domain.\n"
+                },
+                {
+                    "run_id": 1,
+                    "initial_gap": 0.9475,
+                    "final_gap": 0.9475,
+                    "improvement": 0.0,
+                    "queries_to_target": null,
+                    "final_consensus": "[cardiology]: Step-by-step reasoning for 'Query: What are the contraindications for administering drug X in a patient with hypertension?\n\nShared Blackboard:\n' in the cardiology domain.\n\n\n[pharmacy]: Step-by-step reasoning for 'Query: What are the contraindications for administering drug X in a patient with hypertension?\n\nShared Blackboard:\n[cardiology]: Step-by-step reasoning for 'Query: What are the contraindications for administering drug X in a patient with hypertension?\n\nShared Blackboard:\n' in the cardiology domain.\n' in the pharmacy domain.\n"
+                },
+                {
+                    "run_id": 2,
+                    "initial_gap": 0.9475,
+                    "final_gap": 0.9475,
+                    "improvement": 0.0,
+                    "queries_to_target": null,
+                    "final_consensus": "[cardiology]: Step-by-step reasoning for 'Query: What are the contraindications for administering drug X in a patient with hypertension?\n\nShared Blackboard:\n' in the cardiology domain.\n\n\n[pharmacy]: Step-by-step reasoning for 'Query: What are the contraindications for administering drug X in a patient with hypertension?\n\nShared Blackboard:\n[cardiology]: Step-by-step reasoning for 'Query: What are the contraindications for administering drug X in a patient with hypertension?\n\nShared Blackboard:\n' in the cardiology domain.\n' in the pharmacy domain.\n"
+                }
+            ]
+        }
+    ]
+}

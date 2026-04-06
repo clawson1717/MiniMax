@@ -1,6 +1,6 @@
 # RAPTOR — Reasoning quality Assessment via Polling, Trajectory, and Orchestration for Reliability
 
-> ⚠️ **Status: Step 1 Complete (Scaffold + Plan Only)**
+> ⚠️ **Status: Step 2 Complete (Entropy Trajectory Tracker)**
 > Full implementation is tracked in `project-raptor-plan.md`.
 
 ---

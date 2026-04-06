@@ -1,0 +1,44 @@
+{
+  "current_tier": "Remember",
+  "tier_index": 0,
+  "mastery_records": {
+    "Remember": {
+      "tier": "Remember",
+      "attempts": 0,
+      "correct": 0,
+      "mastered": false
+    },
+    "Understand": {
+      "tier": "Understand",
+      "attempts": 0,
+      "correct": 0,
+      "mastered": false
+    },
+    "Apply": {
+      "tier": "Apply",
+      "attempts": 0,
+      "correct": 0,
+      "mastered": false
+    },
+    "Analyze": {
+      "tier": "Analyze",
+      "attempts": 0,
+      "correct": 0,
+      "mastered": false
+    },
+    "Evaluate": {
+      "tier": "Evaluate",
+      "attempts": 0,
+      "correct": 0,
+      "mastered": false
+    },
+    "Create": {
+      "tier": "Create",
+      "attempts": 0,
+      "correct": 0,
+      "mastered": false
+    }
+  },
+  "total_steps": 7,
+  "curriculum_complete": false
+}

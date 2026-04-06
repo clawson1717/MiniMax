@@ -1,0 +1,9 @@
+{
+  "model_name": "Qwen/Qwen2-1.5B-Instruct",
+  "use_4bit": true,
+  "use_lora": true,
+  "lora_r": 8,
+  "lora_alpha": 16,
+  "max_length": 512,
+  "device_map": "auto"
+}

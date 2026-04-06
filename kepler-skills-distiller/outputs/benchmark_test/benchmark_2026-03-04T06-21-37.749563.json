@@ -1,0 +1,173 @@
+{
+  "timestamp": "2026-03-04T06:21:37.749563",
+  "summary": {
+    "total_problems": 13,
+    "expert_accuracy": 0.0,
+    "apprentice_accuracy": 0.0,
+    "expert_avg_mae": 137.347103255463,
+    "apprentice_avg_mae": 138.40671157276327,
+    "expert_avg_time": 0.0009238719940185547,
+    "apprentice_avg_time": 0.0005271434783935547,
+    "improvement_ratio": 0.0
+  },
+  "expert_results": [
+    {
+      "problem": "newton_second_law",
+      "exact_match": false,
+      "mae": 32.16644657830006,
+      "time": 0.0005548000335693359
+    },
+    {
+      "problem": "kinetic_energy",
+      "exact_match": false,
+      "mae": 75.59299201929477,
+      "time": 0.0005843639373779297
+    },
+    {
+      "problem": "gravitational_force",
+      "exact_match": false,
+      "mae": 6.201335710715335,
+      "time": 0.0009098052978515625
+    },
+    {
+      "problem": "wave_equation",
+      "exact_match": false,
+      "mae": Infinity,
+      "time": 0.0008313655853271484
+    },
+    {
+      "problem": "momentum",
+      "exact_match": false,
+      "mae": 28.661224739755607,
+      "time": 0.000896453857421875
+    },
+    {
+      "problem": "coulomb_law",
+      "exact_match": false,
+      "mae": 54.24864500068869,
+      "time": 0.0011661052703857422
+    },
+    {
+      "problem": "electric_power",
+      "exact_match": false,
+      "mae": 29.226974375357646,
+      "time": 0.0008797645568847656
+    },
+    {
+      "problem": "ohms_law",
+      "exact_match": false,
+      "mae": 29.0767589386147,
+      "time": 0.0008771419525146484
+    },
+    {
+      "problem": "ideal_gas",
+      "exact_match": false,
+      "mae": 93.95574060416172,
+      "time": 0.0010256767272949219
+    },
+    {
+      "problem": "thermal_energy",
+      "exact_match": false,
+      "mae": 105.66656907668975,
+      "time": 0.0010063648223876953
+    },
+    {
+      "problem": "circle_area",
+      "exact_match": false,
+      "mae": 89.09142768230751,
+      "time": 0.0009741783142089844
+    },
+    {
+      "problem": "sphere_volume",
+      "exact_match": false,
+      "mae": 1049.951980886869,
+      "time": 0.0011861324310302734
+    },
+    {
+      "problem": "pythagorean",
+      "exact_match": false,
+      "mae": 54.32514345280115,
+      "time": 0.0011181831359863281
+    }
+  ],
+  "apprentice_results": [
+    {
+      "problem": "newton_second_law",
+      "exact_match": false,
+      "mae": 31.467339986039356,
+      "time": 0.0005645751953125
+    },
+    {
+      "problem": "kinetic_energy",
+      "exact_match": false,
+      "mae": 76.66412939403044,
+      "time": 0.0005846023559570312
+    },
+    {
+      "problem": "gravitational_force",
+      "exact_match": false,
+      "mae": 8.126371424162205,
+      "time": 0.0005888938903808594
+    },
+    {
+      "problem": "wave_equation",
+      "exact_match": false,
+      "mae": Infinity,
+      "time": 0.00043320655822753906
+    },
+    {
+      "problem": "momentum",
+      "exact_match": false,
+      "mae": 29.547328476949467,
+      "time": 0.00045037269592285156
+    },
+    {
+      "problem": "coulomb_law",
+      "exact_match": false,
+      "mae": 54.455345971677424,
+      "time": 0.0005896091461181641
+    },
+    {
+      "problem": "electric_power",
+      "exact_match": false,
+      "mae": 30.968369519809755,
+      "time": 0.00044608116149902344
+    },
+    {
+      "problem": "ohms_law",
+      "exact_match": false,
+      "mae": 30.834168061296403,
+      "time": 0.00044226646423339844
+    },
+    {
+      "problem": "ideal_gas",
+      "exact_match": false,
+      "mae": 93.42279694069286,
+      "time": 0.0005273818969726562
+    },
+    {
+      "problem": "thermal_energy",
+      "exact_match": false,
+      "mae": 107.18496646911368,
+      "time": 0.0004966259002685547
+    },
+    {
+      "problem": "circle_area",
+      "exact_match": false,
+      "mae": 91.93261414327584,
+      "time": 0.0004980564117431641
+    },
+    {
+      "problem": "sphere_volume",
+      "exact_match": false,
+      "mae": 1053.2098973100544,
+      "time": 0.0006456375122070312
+    },
+    {
+      "problem": "pythagorean",
+      "exact_match": false,
+      "mae": 53.067211176057604,
+      "time": 0.0005855560302734375
+    }
+  ]
+}

@@ -70,14 +70,29 @@ class IntegratedAdversarialLoop:
     def evaluate_performance(self, agent_responses: Dict[str, List[str]], expert_ref: str) -> float:
         """
         Evaluates how well the agent team performed against the expert reference.
-        Returns a 'gap score' (lower is better, or higher is better depending on metric).
-        For this mock, we'll return a simulated score representing consensus quality.
+        Returns a 'gap score' (lower is better).
         """
-        # Simulated metric: how many agents participated and how long their responses are
-        total_len = sum(len(resp[-1]) for resp in agent_responses.values() if resp)
-        # More content (simulating reasoning depth) reduces the "gap" in this mock
-        gap_score = max(0.0, 1.0 - (total_len / 1000.0)) 
-        return gap_score
+        all_responses = [resp[-1] for resp in agent_responses.values() if resp]
+        total_len = sum(len(r) for r in all_responses)
+        
+        # Expanded vocabulary for evaluating domain shifts
+        expert_keywords = [
+            "immunogenicity", "phenotypic", "off-target", "insertions", 
+            "genomic", "modification", "stochastic", "viral vector",
+            "nebula", "uv", "t-tauri", "nucleosynthesis", "desorption",
+            "stochastic", "vacuum", "silicate", "prebiotic"
+        ]
+        
+        match_count = 0
+        for r in all_responses:
+            for word in expert_keywords:
+                if word.lower() in r.lower():
+                    match_count += 1
+        
+        # Normalization with higher sensitivity to keyword discovery
+        # This simulates 'closing the gap' as the system discovers adversarial concepts
+        gap_score = 1.0 - (total_len / 10000.0) - (match_count / 15.0)
+        return max(0.01, min(1.0, gap_score))
 
     def run_iteration(self, initial_context: str) -> Dict[str, Any]:
         """

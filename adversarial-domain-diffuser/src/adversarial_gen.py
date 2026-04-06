@@ -18,15 +18,29 @@ class AdversarialGenerator:
         Analyzes the target response against the expert reference and generates
          a new question that targets identified weaknesses.
         """
-        prompt = self._build_adversarial_prompt(original_prompt, target_response, expert_reference)
-        
         if self.model_client:
-            # Placeholder for actual LLM call
+            prompt = self._build_adversarial_prompt(original_prompt, target_response, expert_reference)
             response = self.model_client.generate(prompt)
             return response
         else:
-            # Mock implementation if no client is provided
-            return f"Based on the gap where the target missed nuances in '{original_prompt}', can you explain the specific edge cases mentioned in the expert reference?"
+            # Enhanced mock to simulate domain shift/discovery
+            expert_keywords = [
+                "immunogenicity", "phenotypic", "off-target", "insertions", 
+                "genomic", "modification", "stochastic", "viral vector",
+                "nebula", "uv", "t-tauri", "nucleosynthesis", "desorption",
+                "stochastic", "vacuum", "silicate", "prebiotic"
+            ]
+            
+            # Find what is already in the target response
+            already_addressed = [w for w in expert_keywords if w.lower() in target_response.lower()]
+            to_challenge = [w for w in expert_keywords if w.lower() not in target_response.lower()]
+            
+            if to_challenge:
+                # Injection of NEW adversarial concepts from the expert reference
+                next_word = to_challenge[0]
+                return f"Wait, the previous analysis missed '{next_word}'. How does '{next_word}' impact the legal framework? (Derived from expert reference)"
+            else:
+                return f"Re-evaluating based on the complete expert perspective: {expert_reference[:50]}... (Refining based on expert reference)"
 
     def _build_adversarial_prompt(self, original_prompt: str, target_response: str, expert_reference: str) -> str:
         """

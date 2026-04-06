@@ -5,7 +5,9 @@ from .trajectory import TrajectoryGraph, StepNode
 from .pruner import TrajectoryPruner, PruningResult
 from .uncertainty import UncertaintyEstimator, UncertaintyResult
 from .allocator import ComputeAllocator, AllocationResult
-from .agent import EnsembleAgent, EnsembleResponse, VoteResult, EnsembleCoordinator
+from .agent import EnsembleAgent, EnsembleResponse, VoteResult
+from .voting import CapacityWeightedVoter, VoteResult as VotingVoteResult, DisagreementResult
+from .coordinator import EnsembleCoordinator, CoordinationResult
 
 __all__ = [
     "CapacityEstimator",
@@ -22,5 +24,9 @@ __all__ = [
     "EnsembleResponse",
     "VoteResult",
     "EnsembleCoordinator",
+    "CoordinationResult",
+    "CapacityWeightedVoter",
+    "VotingVoteResult",
+    "DisagreementResult",
     "__version__",
 ]

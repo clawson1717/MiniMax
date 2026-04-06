@@ -1,0 +1,728 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-9.0.2, pluggy-1.6.0 -- /usr/bin/python3
+cachedir: .pytest_cache
+rootdir: /home/corbin/.openclaw/workspace/ClawWork/cgpm
+configfile: pyproject.toml
+plugins: asyncio-1.3.0, anyio-4.12.1, cov-7.0.0
+asyncio: mode=Mode.AUTO, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collecting ... collected 31 items
+
+tests/test_core.py::TestConfidenceScore::test_init_default PASSED        [  3%]
+tests/test_core.py::TestConfidenceScore::test_init_invalid PASSED        [  6%]
+tests/test_core.py::TestConfidenceScore::test_level_high PASSED          [  9%]
+tests/test_core.py::TestConfidenceScore::test_level_medium PASSED        [ 12%]
+tests/test_core.py::TestConfidenceScore::test_level_low PASSED           [ 16%]
+tests/test_core.py::TestConfidenceScore::test_bayesian_update PASSED     [ 19%]
+tests/test_core.py::TestProvenanceRecord::test_to_dict PASSED            [ 22%]
+tests/test_core.py::TestProvenanceRecord::test_roundtrip PASSED          [ 25%]
+tests/test_core.py::TestRuleConstraint::test_to_dict PASSED              [ 29%]
+tests/test_core.py::TestKnowledgeObject::test_init_basic FAILED          [ 32%]
+tests/test_core.py::TestKnowledgeObject::test_init_with_confidence FAILED [ 35%]
+tests/test_core.py::TestKnowledgeObject::test_init_invalid_confidence PASSED [ 38%]
+tests/test_core.py::TestKnowledgeObject::test_init_with_provenance PASSED [ 41%]
+tests/test_core.py::TestKnowledgeObject::test_deterministic_id PASSED    [ 45%]
+tests/test_core.py::TestKnowledgeObject::test_different_content_different_id PASSED [ 48%]
+tests/test_core.py::TestKnowledgeObject::test_decay FAILED               [ 51%]
+tests/test_core.py::TestKnowledgeObject::test_decay_floor FAILED         [ 54%]
+tests/test_core.py::TestKnowledgeObject::test_to_dict_roundtrip PASSED   [ 58%]
+tests/test_core.py::TestKnowledgeObject::test_to_json FAILED             [ 61%]
+tests/test_core.py::TestKnowledgeObject::test_tags PASSED                [ 64%]
+tests/test_engine.py::test_temporal_decay_calculation PASSED             [ 67%]
+tests/test_engine.py::test_rule_scoring FAILED                           [ 70%]
+tests/test_engine.py::test_composite_score_calculation FAILED            [ 74%]
+tests/test_engine.py::test_engine_update_confidence FAILED               [ 77%]
+tests/test_gate.py::test_confidence_gate_basic FAILED                    [ 80%]
+tests/test_gate.py::test_confidence_gate_custom_thresholds FAILED        [ 83%]
+tests/test_gate.py::test_confidence_gate_reasoning_context FAILED        [ 87%]
+tests/test_gate.py::test_confidence_gate_with_threshold_parameter FAILED [ 90%]
+tests/test_store.py::test_fact_store_operations FAILED                   [ 93%]
+tests/test_store.py::test_fact_store_edge_cases FAILED                   [ 96%]
+tests/test_store.py::test_fact_store_provenance_logging FAILED           [100%]
+
+=================================== FAILURES ===================================
+_____________________ TestKnowledgeObject.test_init_basic ______________________
+
+self = <test_core.TestKnowledgeObject object at 0x721b19474350>
+
+    def test_init_basic(self):
+        ko = KnowledgeObject(content="The sky is blue.")
+        assert ko.content == "The sky is blue."
+>       assert ko.confidence == 0.5
+E       AssertionError: assert ConfidenceScore(value=0.5, n_observations=0, reliability=0.5) == 0.5
+E        +  where ConfidenceScore(value=0.5, n_observations=0, reliability=0.5) = KnowledgeObject(content='The sky is blue.', confidence=ConfidenceScore(value=0.5, n_observations=0, reliability=0.5), provenance=ProvenanceRecord(source='unknown', agent_id=None, tool_name=None, context={}, timestamp=1775139893.3277695), rules=[], decay_rate=0.001, tags=[], ko_id='ko_52ae4fd504d855f168e02d592c834b74', created_at=1775139893.327765, updated_at=1775139893.3277652, decay_history=[]).confidence
+
+tests/test_core.py:86: AssertionError
+________________ TestKnowledgeObject.test_init_with_confidence _________________
+
+self = <test_core.TestKnowledgeObject object at 0x721b194745f0>
+
+    def test_init_with_confidence(self):
+        ko = KnowledgeObject(content="Pi is approximately 3.14.", confidence=0.99)
+>       assert ko.confidence == 0.99
+E       AssertionError: assert ConfidenceScore(value=0.99, n_observations=0, reliability=0.5) == 0.99
+E        +  where ConfidenceScore(value=0.99, n_observations=0, reliability=0.5) = KnowledgeObject(content='Pi is approximately 3.14.', confidence=ConfidenceScore(value=0.99, n_observations=0, reliability=0.5), provenance=ProvenanceRecord(source='unknown', agent_id=None, tool_name=None, context={}, timestamp=1775139893.3387082), rules=[], decay_rate=0.001, tags=[], ko_id='ko_487731b0887d0ee637f779d41ff9e2ff', created_at=1775139893.3387065, updated_at=1775139893.3387067, decay_history=[]).confidence
+
+tests/test_core.py:93: AssertionError
+________________________ TestKnowledgeObject.test_decay ________________________
+
+self = <test_core.TestKnowledgeObject object at 0x721b194575c0>
+
+    def test_decay(self):
+        ko = KnowledgeObject(content="Slowly decaying fact", decay_rate=0.1)
+        ko.confidence = 1.0
+>       new_conf = ko.apply_decay(hours_elapsed=10)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_core.py:125: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = KnowledgeObject(content='Slowly decaying fact', confidence=1.0, provenance=ProvenanceRecord(source='unknown', agent_id...='ko_89fbc8109e0b80c32bbb2bfac8a1e14e', created_at=1775139893.3437383, updated_at=1775139893.3437386, decay_history=[])
+hours_elapsed = 10
+
+    def apply_decay(self, hours_elapsed: float) -> float:
+        """Apply temporal decay to confidence.
+    
+        Formula: c(t) = c0 * exp(-decay_rate * t)
+    
+        Returns:
+            New confidence value
+        """
+        import math
+>       old_value = self.confidence.value
+                    ^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'float' object has no attribute 'value'
+
+src/cgpm/core.py:152: AttributeError
+_____________________ TestKnowledgeObject.test_decay_floor _____________________
+
+self = <test_core.TestKnowledgeObject object at 0x721b19456de0>
+
+    def test_decay_floor(self):
+        ko = KnowledgeObject(content="Fact", decay_rate=1.0)
+        ko.confidence = 0.01
+>       ko.apply_decay(hours_elapsed=1000)
+
+tests/test_core.py:133: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = KnowledgeObject(content='Fact', confidence=0.01, provenance=ProvenanceRecord(source='unknown', agent_id=None, tool_nam...o_id='ko_2558566c5e58d4c67c9578d1c821e0cd', created_at=1775139893.34996, updated_at=1775139893.34996, decay_history=[])
+hours_elapsed = 1000
+
+    def apply_decay(self, hours_elapsed: float) -> float:
+        """Apply temporal decay to confidence.
+    
+        Formula: c(t) = c0 * exp(-decay_rate * t)
+    
+        Returns:
+            New confidence value
+        """
+        import math
+>       old_value = self.confidence.value
+                    ^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'float' object has no attribute 'value'
+
+src/cgpm/core.py:152: AttributeError
+_______________________ TestKnowledgeObject.test_to_json _______________________
+
+self = <test_core.TestKnowledgeObject object at 0x721b194749e0>
+
+    def test_to_json(self):
+        ko = KnowledgeObject(content="JSON test", confidence=0.7)
+>       s = ko.to_json()
+            ^^^^^^^^^^^^
+
+tests/test_core.py:151: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/cgpm/core.py:192: in to_json
+    return json.dumps(self.to_dict(), indent=2)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/lib/python3.12/json/__init__.py:238: in dumps
+    **kw).encode(obj)
+          ^^^^^^^^^^^
+/usr/lib/python3.12/json/encoder.py:202: in encode
+    chunks = list(chunks)
+             ^^^^^^^^^^^^
+/usr/lib/python3.12/json/encoder.py:432: in _iterencode
+    yield from _iterencode_dict(o, _current_indent_level)
+/usr/lib/python3.12/json/encoder.py:406: in _iterencode_dict
+    yield from chunks
+/usr/lib/python3.12/json/encoder.py:439: in _iterencode
+    o = _default(o)
+        ^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <json.encoder.JSONEncoder object at 0x721b194a74a0>
+o = ConfidenceScore(value=0.7, n_observations=0, reliability=0.5)
+
+    def default(self, o):
+        """Implement this method in a subclass such that it returns
+        a serializable object for ``o``, or calls the base implementation
+        (to raise a ``TypeError``).
+    
+        For example, to support arbitrary iterators, you could
+        implement default like this::
+    
+            def default(self, o):
+                try:
+                    iterable = iter(o)
+                except TypeError:
+                    pass
+                else:
+                    return list(iterable)
+                # Let the base class default method raise the TypeError
+                return super().default(o)
+    
+        """
+>       raise TypeError(f'Object of type {o.__class__.__name__} '
+                        f'is not JSON serializable')
+E       TypeError: Object of type ConfidenceScore is not JSON serializable
+
+/usr/lib/python3.12/json/encoder.py:180: TypeError
+______________________________ test_rule_scoring _______________________________
+
+    def test_rule_scoring():
+        """Test the rule-based scoring."""
+    
+        # Create a simple rule store mock
+        class MockRuleStore:
+            def get(self, rule_id: str) -> Optional[Dict[str, Any]]:
+                if rule_id == "exclusion_rule":
+                    return {"type": "exclusion"}
+                elif rule_id == "endorsement_rule":
+                    return {"type": "endorsement"}
+                return None
+    
+        engine = ConfidenceEngine(base_decay_rate=0.01, rule_store=MockRuleStore())
+    
+        provenance = ProvenanceRecord(
+            source="test_source",
+            timestamp="2026-04-02T02:21:00"
+        )
+    
+        # Test with exclusion rule (should reduce score)
+        ko_exclusion = KnowledgeObject(
+            content="Fact with exclusion",
+            confidence=ConfidenceScore(0.9),
+            provenance=provenance,
+            rules=["exclusion_rule"],
+            created_at=datetime.now(),
+            updated_at=datetime.now(),
+            decay_rate=0.01
+        )
+    
+        rule_score_exclusion = engine.compute_rule_score(ko_exclusion)
+        assert rule_score_exclusion == 0.5, f"Exclusion rule should reduce score to 0.5, got {rule_score_exclusion}"
+    
+        # Test with endorsement rule (should increase score)
+        ko_endorsement = KnowledgeObject(
+            content={"fact": "Fact with endorsement"},
+            confidence=ConfidenceScore(0.6),
+            provenance=provenance,
+            rules=["endorsement_rule"],
+            created_at=datetime.now(),
+            updated_at=datetime.now(),
+            decay_rate=0.01
+        )
+    
+        rule_score_endorsement = engine.compute_rule_score(ko_endorsement)
+>       assert rule_score_endorsement == 1.2, f"Endorsement rule should increase score to 1.2, got {rule_score_endorsement}"
+E       AssertionError: Endorsement rule should increase score to 1.2, got 1.0
+E       assert 1.0 == 1.2
+
+tests/test_engine.py:108: AssertionError
+_______________________ test_composite_score_calculation _______________________
+
+    def test_composite_score_calculation():
+        """Test the composite confidence score calculation."""
+    
+        engine = ConfidenceEngine(base_decay_rate=0.01)
+    
+        provenance = ProvenanceRecord(
+            source="test_source",
+            timestamp="2026-04-02T02:21:00"
+        )
+    
+        # Recent object with no decay and no rules
+        recent_ko = KnowledgeObject(
+            content="Recent fact",
+            confidence=ConfidenceScore(0.8),
+            provenance=provenance,
+            rules=[],
+            created_at=datetime.now(),
+            updated_at=datetime.now(),
+            decay_rate=0.01
+        )
+    
+        composite_recent = engine.compute_composite_score(recent_ko)
+        assert abs(composite_recent - 0.8) < 0.001, f"Recent object should have composite ~0.8, got {composite_recent}"
+    
+        # Older object with decay
+        old_ko = KnowledgeObject(
+            content={"fact": "Old fact"},
+            confidence=ConfidenceScore(0.8),
+            provenance=provenance,
+            rules=[],
+            created_at=datetime.now() - timedelta(days=30),
+            updated_at=datetime.now() - timedelta(days=30),
+            decay_rate=0.01
+        )
+    
+        composite_old = engine.compute_composite_score(old_ko)
+        assert composite_old < 0.6, f"Old object should have composite < 0.6, got {composite_old}"
+    
+        # Object with endorsement rule
+        endorsed_ko = KnowledgeObject(
+            content={"fact": "Endorsed fact"},
+            confidence=ConfidenceScore(0.6),
+            provenance=provenance,
+            rules=["endorsement_rule"],
+            created_at=datetime.now(),
+            updated_at=datetime.now(),
+            decay_rate=0.01
+        )
+    
+        # Need rule store for this test
+        class MockRuleStore:
+            def get(self, rule_id: str) -> Optional[Dict[str, Any]]:
+                if rule_id == "endorsement_rule":
+                    return {"type": "endorsement"}
+                return None
+    
+        engine_with_rules = ConfidenceEngine(base_decay_rate=0.01, rule_store=MockRuleStore())
+        composite_endorsed = engine_with_rules.compute_composite_score(endorsed_ko)
+>       assert composite_endorsed == 0.72, f"Endorsed fact should have composite 0.72, got {composite_endorsed}"
+E       AssertionError: Endorsed fact should have composite 0.72, got 0.5999999999566666
+E       assert 0.5999999999566666 == 0.72
+
+tests/test_engine.py:198: AssertionError
+________________________ test_engine_update_confidence _________________________
+
+    def test_engine_update_confidence():
+        """Test updating confidence with the engine."""
+    
+        engine = ConfidenceEngine(base_decay_rate=0.01)
+    
+        provenance = ProvenanceRecord(
+            source="test_source",
+            timestamp="2026-04-02T02:21:00"
+        )
+    
+        # Create a recent object
+        ko = KnowledgeObject(
+            content="Test fact",
+            confidence=ConfidenceScore(0.9),
+            provenance=provenance,
+            rules=[],
+            created_at=datetime.now(),
+            updated_at=datetime.now(),
+            decay_rate=0.01
+        )
+    
+        # Update confidence using engine (should apply decay if object is old enough)
+        new_confidence = engine.update_confidence_with_engine(ko)
+>       assert abs(float(new_confidence) - 0.9) < 0.001, f"Recent object should have similar confidence, got {new_confidence}"
+                   ^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: float() argument must be a string or a real number, not 'ConfidenceScore'
+
+tests/test_engine.py:224: TypeError
+__________________________ test_confidence_gate_basic __________________________
+
+    def test_confidence_gate_basic():
+        """Test basic gate functionality."""
+    
+        gate = ConfidenceGate(default_threshold=ConfidenceScore(0.5))
+    
+        # Create a KnowledgeObject with confidence 0.9
+        provenance = ProvenanceRecord(
+            source="test_source",
+            timestamp="2026-04-02T02:21:00"
+        )
+        ko_high = KnowledgeObject(
+            content="High confidence fact",
+            confidence=ConfidenceScore(0.9),
+            provenance=provenance,
+            rules=["rule_001"],
+            created_at=datetime.now(),
+            updated_at=datetime.now(),
+            decay_rate=0.01
+        )
+    
+        # Create a KnowledgeObject with confidence 0.3
+        ko_low = KnowledgeObject(
+            content="Low confidence fact",
+            confidence=ConfidenceScore(0.3),
+            provenance=provenance,
+            rules=[],
+            created_at=datetime.now(),
+            updated_at=datetime.now(),
+            decay_rate=0.01
+        )
+    
+        # Test is_allowed with default threshold
+>       assert gate.is_allowed(ko_high) == True, "High confidence object should be allowed"
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_gate.py:41: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <cgpm.gate.ConfidenceGate object at 0x721b194d4aa0>
+ko = KnowledgeObject(content='High confidence fact', confidence=ConfidenceScore(value=0.9, n_observations=0, reliability=0....datetime(2026, 4, 2, 8, 24, 53, 385179), updated_at=datetime.datetime(2026, 4, 2, 8, 24, 53, 385181), decay_history=[])
+threshold = None
+
+    def is_allowed(self, ko: KnowledgeObject, threshold: Optional[ConfidenceScore] = None) -> bool:
+        """
+        Check if a KnowledgeObject is allowed through the gate.
+    
+        Args:
+            ko: The KnowledgeObject to check
+            threshold: Optional custom threshold; uses default_threshold if None
+    
+        Returns:
+            True if the object's confidence meets or exceeds the threshold, False otherwise
+        """
+        effective_threshold = threshold if threshold is not None else self.default_threshold
+        effective_threshold = self.custom_thresholds.get(ko.ko_id, effective_threshold)
+    
+>       return float(ko.confidence.value) >= float(effective_threshold)
+                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: float() argument must be a string or a real number, not 'ConfidenceScore'
+
+src/cgpm/gate.py:40: TypeError
+____________________ test_confidence_gate_custom_thresholds ____________________
+
+    def test_confidence_gate_custom_thresholds():
+        """Test custom thresholds for specific KnowledgeObjects."""
+    
+        gate = ConfidenceGate(default_threshold=ConfidenceScore(0.5))
+    
+        # Create KnowledgeObjects
+        provenance = ProvenanceRecord(
+            source="test_source",
+            timestamp="2026-04-02T02:21:00"
+        )
+        ko_1 = KnowledgeObject(
+            content="Fact 1",
+            confidence=ConfidenceScore(0.4),
+            provenance=provenance,
+            rules=[],
+            created_at=datetime.now(),
+            updated_at=datetime.now(),
+            decay_rate=0.01
+        )
+        ko_2 = KnowledgeObject(
+            content="Fact 2",
+            confidence=ConfidenceScore(0.4),
+            provenance=provenance,
+            rules=[],
+            created_at=datetime.now(),
+            updated_at=datetime.now(),
+            decay_rate=0.01
+        )
+    
+        # Set custom threshold for ko_1
+>       gate.set_threshold(ko_1.id, ConfidenceScore(0.3))
+                           ^^^^^^^
+E       AttributeError: 'KnowledgeObject' object has no attribute 'id'
+
+tests/test_gate.py:84: AttributeError
+____________________ test_confidence_gate_reasoning_context ____________________
+
+    def test_confidence_gate_reasoning_context():
+        """Test the reasoning context generation."""
+    
+        gate = ConfidenceGate(default_threshold=ConfidenceScore(0.5))
+    
+        provenance = ProvenanceRecord(
+            source="test_source",
+            timestamp="2026-04-02T02:21:00"
+        )
+    
+        # Create several KnowledgeObjects with different confidences
+        ko_high = KnowledgeObject(
+            content="High confidence fact",
+            confidence=ConfidenceScore(0.9),
+            provenance=provenance,
+            rules=["rule_001"],
+            created_at=datetime.now(),
+            updated_at=datetime.now(),
+            decay_rate=0.01
+        )
+    
+        ko_low = KnowledgeObject(
+            content="Low confidence fact",
+            confidence=ConfidenceScore(0.3),
+            provenance=provenance,
+            rules=[],
+            created_at=datetime.now(),
+            updated_at=datetime.now(),
+            decay_rate=0.01
+        )
+    
+        ko_medium = KnowledgeObject(
+            content="Medium confidence fact",
+            confidence=ConfidenceScore(0.6),
+            provenance=provenance,
+            rules=["rule_002"],
+            created_at=datetime.now(),
+            updated_at=datetime.now(),
+            decay_rate=0.01
+        )
+    
+        kos = [ko_high, ko_low, ko_medium]
+    
+        # Generate reasoning context with default threshold 0.5
+>       context = gate.get_reasoning_context(kos)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_gate.py:144: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/cgpm/gate.py:67: in get_reasoning_context
+    allowed = self.filter_query(kos, threshold)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/cgpm/gate.py:54: in filter_query
+    return [ko for ko in kos if self.is_allowed(ko, effective_threshold)]
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <cgpm.gate.ConfidenceGate object at 0x721b194a7c50>
+ko = KnowledgeObject(content='High confidence fact', confidence=ConfidenceScore(value=0.9, n_observations=0, reliability=0....datetime(2026, 4, 2, 8, 24, 53, 391826), updated_at=datetime.datetime(2026, 4, 2, 8, 24, 53, 391827), decay_history=[])
+threshold = ConfidenceScore(value=0.5, n_observations=0, reliability=0.5)
+
+    def is_allowed(self, ko: KnowledgeObject, threshold: Optional[ConfidenceScore] = None) -> bool:
+        """
+        Check if a KnowledgeObject is allowed through the gate.
+    
+        Args:
+            ko: The KnowledgeObject to check
+            threshold: Optional custom threshold; uses default_threshold if None
+    
+        Returns:
+            True if the object's confidence meets or exceeds the threshold, False otherwise
+        """
+        effective_threshold = threshold if threshold is not None else self.default_threshold
+        effective_threshold = self.custom_thresholds.get(ko.ko_id, effective_threshold)
+    
+>       return float(ko.confidence.value) >= float(effective_threshold)
+                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: float() argument must be a string or a real number, not 'ConfidenceScore'
+
+src/cgpm/gate.py:40: TypeError
+________________ test_confidence_gate_with_threshold_parameter _________________
+
+    def test_confidence_gate_with_threshold_parameter():
+        """Test that passing an explicit threshold overrides the default."""
+    
+        gate = ConfidenceGate(default_threshold=ConfidenceScore(0.5))
+    
+        provenance = ProvenanceRecord(
+            source="test_source",
+            timestamp="2026-04-02T02:21:00"
+        )
+        ko = KnowledgeObject(
+            content="Test fact",
+            confidence=ConfidenceScore(0.6),
+            provenance=provenance,
+            rules=[],
+            created_at=datetime.now(),
+            updated_at=datetime.now(),
+            decay_rate=0.01
+        )
+    
+        # With explicit threshold 0.7, the object should be blocked
+>       assert gate.is_allowed(ko, threshold=ConfidenceScore(0.7)) == False, "Should be blocked with threshold 0.7"
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_gate.py:179: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <cgpm.gate.ConfidenceGate object at 0x721b194a4bc0>
+ko = KnowledgeObject(content='Test fact', confidence=ConfidenceScore(value=0.6, n_observations=0, reliability=0.5), provena...datetime(2026, 4, 2, 8, 24, 53, 396640), updated_at=datetime.datetime(2026, 4, 2, 8, 24, 53, 396641), decay_history=[])
+threshold = ConfidenceScore(value=0.7, n_observations=0, reliability=0.5)
+
+    def is_allowed(self, ko: KnowledgeObject, threshold: Optional[ConfidenceScore] = None) -> bool:
+        """
+        Check if a KnowledgeObject is allowed through the gate.
+    
+        Args:
+            ko: The KnowledgeObject to check
+            threshold: Optional custom threshold; uses default_threshold if None
+    
+        Returns:
+            True if the object's confidence meets or exceeds the threshold, False otherwise
+        """
+        effective_threshold = threshold if threshold is not None else self.default_threshold
+        effective_threshold = self.custom_thresholds.get(ko.ko_id, effective_threshold)
+    
+>       return float(ko.confidence.value) >= float(effective_threshold)
+                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: float() argument must be a string or a real number, not 'ConfidenceScore'
+
+src/cgpm/gate.py:40: TypeError
+__________________________ test_fact_store_operations __________________________
+
+    def test_fact_store_operations():
+        """Test basic CRUD operations on the FactStore."""
+    
+        # Create a temporary database
+        db_file = tempfile.NamedTemporaryFile(delete=False, suffix=".db").name
+        try:
+            # Initialize store
+            store = FactStore(db_path=db_file)
+    
+            # Create a sample KnowledgeObject
+            provenance = ProvenanceRecord(
+                source="test_source",
+                timestamp="2026-04-02T02:21:00"
+            )
+            ko = KnowledgeObject(
+                content="The capital of France is Paris",
+                confidence=ConfidenceScore(0.9),
+                provenance=provenance,
+                rules=["rule_geo_001"],
+                created_at=datetime.now(),
+                updated_at=datetime.now(),
+                decay_rate=0.01
+            )
+    
+            # Test insert
+>           ko_id = store.insert(ko)
+                    ^^^^^^^^^^^^^^^^
+
+tests/test_store.py:37: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/cgpm/store.py:101: in insert
+    self._log_provenance(ko_id, "CREATE", {
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <cgpm.store.FactStore object at 0x721b194a75f0>
+ko_id = '6a87476ccaa806d37d2aa1da938df839857ccd7c1c6b5805aaf6adfdc30977dc'
+event_type = 'CREATE'
+details = {'confidence': 0.9, 'content': 'The capital of France is Paris', 'provenance': {'agent_id': None, 'context': {}, 'source': 'test_source', 'timestamp': '2026-04-02T02:21:00', ...}}
+
+    def _log_provenance(self, ko_id: str, event_type: str, details: Dict[str, Any]) -> None:
+        """Log a provenance event to the provenance_log table."""
+        with sqlite3.connect(self.db_path) as conn:
+            cursor = conn.cursor()
+>           cursor.execute('''
+                INSERT INTO provenance_log (ko_id, event_type, timestamp, details)
+                VALUES (?, ?, ?, ?)
+            ''', (ko_id, event_type, datetime.now().isoformat(), json.dumps(details)))
+E           sqlite3.OperationalError: database is locked
+
+src/cgpm/store.py:249: OperationalError
+__________________________ test_fact_store_edge_cases __________________________
+
+    def test_fact_store_edge_cases():
+        """Test edge cases and error conditions."""
+    
+        db_file = tempfile.NamedTemporaryFile(delete=False, suffix=".db").name
+        try:
+            store = FactStore(db_path=db_file)
+    
+            # Test duplicate insertion
+            provenance = ProvenanceRecord(
+                source="test_source",
+                timestamp="2026-04-02T02:21:00"
+            )
+            ko = KnowledgeObject(
+                content="Unique content",
+                confidence=ConfidenceScore(0.9),
+                provenance=provenance,
+                rules=[],
+                created_at=datetime.now(),
+                updated_at=datetime.now(),
+                decay_rate=0.01
+            )
+    
+            # First insert should succeed
+>           ko_id = store.insert(ko)
+                    ^^^^^^^^^^^^^^^^
+
+tests/test_store.py:120: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/cgpm/store.py:101: in insert
+    self._log_provenance(ko_id, "CREATE", {
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <cgpm.store.FactStore object at 0x721b194d67e0>
+ko_id = 'e1a1c8b383852a63bcfc2e8dbc1ba8772ab21bed1536f2a4c07081494791eac4'
+event_type = 'CREATE'
+details = {'confidence': 0.9, 'content': 'Unique content', 'provenance': {'agent_id': None, 'context': {}, 'source': 'test_source', 'timestamp': '2026-04-02T02:21:00', ...}}
+
+    def _log_provenance(self, ko_id: str, event_type: str, details: Dict[str, Any]) -> None:
+        """Log a provenance event to the provenance_log table."""
+        with sqlite3.connect(self.db_path) as conn:
+            cursor = conn.cursor()
+>           cursor.execute('''
+                INSERT INTO provenance_log (ko_id, event_type, timestamp, details)
+                VALUES (?, ?, ?, ?)
+            ''', (ko_id, event_type, datetime.now().isoformat(), json.dumps(details)))
+E           sqlite3.OperationalError: database is locked
+
+src/cgpm/store.py:249: OperationalError
+______________________ test_fact_store_provenance_logging ______________________
+
+    def test_fact_store_provenance_logging():
+        """Test that provenance events are properly logged."""
+    
+        db_file = tempfile.NamedTemporaryFile(delete=False, suffix=".db").name
+        try:
+            store = FactStore(db_path=db_file)
+    
+            # Create and insert a KnowledgeObject
+            provenance = ProvenanceRecord(
+                source="test_source",
+                timestamp="2026-04-02T02:21:00"
+            )
+            ko = KnowledgeObject(
+                content="Test fact",
+                confidence=ConfidenceScore(0.9),
+                provenance=provenance,
+                rules=[],
+                created_at=datetime.now(),
+                updated_at=datetime.now(),
+                decay_rate=0.01
+            )
+    
+>           ko_id = store.insert(ko)
+                    ^^^^^^^^^^^^^^^^
+
+tests/test_store.py:164: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/cgpm/store.py:101: in insert
+    self._log_provenance(ko_id, "CREATE", {
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <cgpm.store.FactStore object at 0x721b194d4200>
+ko_id = '7b27b7d824c08b15660313907f1940281348afde0c2e140828ab92dd13a84629'
+event_type = 'CREATE'
+details = {'confidence': 0.9, 'content': 'Test fact', 'provenance': {'agent_id': None, 'context': {}, 'source': 'test_source', 'timestamp': '2026-04-02T02:21:00', ...}}
+
+    def _log_provenance(self, ko_id: str, event_type: str, details: Dict[str, Any]) -> None:
+        """Log a provenance event to the provenance_log table."""
+        with sqlite3.connect(self.db_path) as conn:
+            cursor = conn.cursor()
+>           cursor.execute('''
+                INSERT INTO provenance_log (ko_id, event_type, timestamp, details)
+                VALUES (?, ?, ?, ?)
+            ''', (ko_id, event_type, datetime.now().isoformat(), json.dumps(details)))
+E           sqlite3.OperationalError: database is locked
+
+src/cgpm/store.py:249: OperationalError
+=========================== short test summary info ============================
+FAILED tests/test_core.py::TestKnowledgeObject::test_init_basic - AssertionEr...
+FAILED tests/test_core.py::TestKnowledgeObject::test_init_with_confidence - A...
+FAILED tests/test_core.py::TestKnowledgeObject::test_decay - AttributeError: ...
+FAILED tests/test_core.py::TestKnowledgeObject::test_decay_floor - AttributeE...
+FAILED tests/test_core.py::TestKnowledgeObject::test_to_json - TypeError: Obj...
+FAILED tests/test_engine.py::test_rule_scoring - AssertionError: Endorsement ...
+FAILED tests/test_engine.py::test_composite_score_calculation - AssertionErro...
+FAILED tests/test_engine.py::test_engine_update_confidence - TypeError: float...
+FAILED tests/test_gate.py::test_confidence_gate_basic - TypeError: float() ar...
+FAILED tests/test_gate.py::test_confidence_gate_custom_thresholds - Attribute...
+FAILED tests/test_gate.py::test_confidence_gate_reasoning_context - TypeError...
+FAILED tests/test_gate.py::test_confidence_gate_with_threshold_parameter - Ty...
+FAILED tests/test_store.py::test_fact_store_operations - sqlite3.OperationalE...
+FAILED tests/test_store.py::test_fact_store_edge_cases - sqlite3.OperationalE...
+FAILED tests/test_store.py::test_fact_store_provenance_logging - sqlite3.Oper...
+======================== 15 failed, 16 passed in 15.28s ========================

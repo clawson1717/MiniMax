@@ -1,0 +1,156 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-9.0.2, pluggy-1.6.0
+rootdir: /home/corbin/.openclaw/workspace/ClawWork/cgpm
+configfile: pyproject.toml
+plugins: asyncio-1.3.0, anyio-4.12.1, cov-7.0.0
+asyncio: mode=Mode.AUTO, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collected 31 items
+
+tests/test_core.py .........FF....FF.F.                                  [ 64%]
+tests/test_engine.py .FFF                                                [ 77%]
+tests/test_gate.py FFFF                                                  [ 90%]
+tests/test_store.py FFF                                                  [100%]
+
+=================================== FAILURES ===================================
+_____________________ TestKnowledgeObject.test_init_basic ______________________
+tests/test_core.py:86: in test_init_basic
+    assert ko.confidence == 0.5
+E   AssertionError: assert ConfidenceScore(value=0.5, n_observations=0, reliability=0.5) == 0.5
+E    +  where ConfidenceScore(value=0.5, n_observations=0, reliability=0.5) = KnowledgeObject(content='The sky is blue.', confidence=ConfidenceScore(value=0.5, n_observations=0, reliability=0.5), ...='ko_52ae4fd504d855f17bfc7d8758eb864c', created_at=1775139923.4806252, updated_at=1775139923.4806254, decay_history=[]).confidence
+________________ TestKnowledgeObject.test_init_with_confidence _________________
+tests/test_core.py:93: in test_init_with_confidence
+    assert ko.confidence == 0.99
+E   AssertionError: assert ConfidenceScore(value=0.99, n_observations=0, reliability=0.5) == 0.99
+E    +  where ConfidenceScore(value=0.99, n_observations=0, reliability=0.5) = KnowledgeObject(content='Pi is approximately 3.14.', confidence=ConfidenceScore(value=0.99, n_observations=0, reliabil...='ko_487731b0887d0ee6af4d59ac1532ba6d', created_at=1775139923.4951925, updated_at=1775139923.4951928, decay_history=[]).confidence
+________________________ TestKnowledgeObject.test_decay ________________________
+tests/test_core.py:125: in test_decay
+    new_conf = ko.apply_decay(hours_elapsed=10)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/cgpm/core.py:152: in apply_decay
+    old_value = self.confidence.value
+                ^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'float' object has no attribute 'value'
+_____________________ TestKnowledgeObject.test_decay_floor _____________________
+tests/test_core.py:133: in test_decay_floor
+    ko.apply_decay(hours_elapsed=1000)
+src/cgpm/core.py:152: in apply_decay
+    old_value = self.confidence.value
+                ^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'float' object has no attribute 'value'
+_______________________ TestKnowledgeObject.test_to_json _______________________
+tests/test_core.py:151: in test_to_json
+    s = ko.to_json()
+        ^^^^^^^^^^^^
+src/cgpm/core.py:192: in to_json
+    return json.dumps(self.to_dict(), indent=2)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/lib/python3.12/json/__init__.py:238: in dumps
+    **kw).encode(obj)
+          ^^^^^^^^^^^
+/usr/lib/python3.12/json/encoder.py:202: in encode
+    chunks = list(chunks)
+             ^^^^^^^^^^^^
+/usr/lib/python3.12/json/encoder.py:432: in _iterencode
+    yield from _iterencode_dict(o, _current_indent_level)
+/usr/lib/python3.12/json/encoder.py:406: in _iterencode_dict
+    yield from chunks
+/usr/lib/python3.12/json/encoder.py:439: in _iterencode
+    o = _default(o)
+        ^^^^^^^^^^^
+/usr/lib/python3.12/json/encoder.py:180: in default
+    raise TypeError(f'Object of type {o.__class__.__name__} '
+E   TypeError: Object of type ConfidenceScore is not JSON serializable
+______________________________ test_rule_scoring _______________________________
+tests/test_engine.py:108: in test_rule_scoring
+    assert rule_score_endorsement == 1.2, f"Endorsement rule should increase score to 1.2, got {rule_score_endorsement}"
+E   AssertionError: Endorsement rule should increase score to 1.2, got 1.0
+E   assert 1.0 == 1.2
+_______________________ test_composite_score_calculation _______________________
+tests/test_engine.py:198: in test_composite_score_calculation
+    assert composite_endorsed == 0.72, f"Endorsed fact should have composite 0.72, got {composite_endorsed}"
+E   AssertionError: Endorsed fact should have composite 0.72, got 0.599999999945
+E   assert 0.599999999945 == 0.72
+________________________ test_engine_update_confidence _________________________
+tests/test_engine.py:224: in test_engine_update_confidence
+    assert abs(float(new_confidence) - 0.9) < 0.001, f"Recent object should have similar confidence, got {new_confidence}"
+               ^^^^^^^^^^^^^^^^^^^^^
+E   TypeError: float() argument must be a string or a real number, not 'ConfidenceScore'
+__________________________ test_confidence_gate_basic __________________________
+tests/test_gate.py:41: in test_confidence_gate_basic
+    assert gate.is_allowed(ko_high) == True, "High confidence object should be allowed"
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+src/cgpm/gate.py:40: in is_allowed
+    return float(ko.confidence.value) >= float(effective_threshold)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   TypeError: float() argument must be a string or a real number, not 'ConfidenceScore'
+____________________ test_confidence_gate_custom_thresholds ____________________
+tests/test_gate.py:84: in test_confidence_gate_custom_thresholds
+    gate.set_threshold(ko_1.id, ConfidenceScore(0.3))
+                       ^^^^^^^
+E   AttributeError: 'KnowledgeObject' object has no attribute 'id'
+____________________ test_confidence_gate_reasoning_context ____________________
+tests/test_gate.py:144: in test_confidence_gate_reasoning_context
+    context = gate.get_reasoning_context(kos)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/cgpm/gate.py:67: in get_reasoning_context
+    allowed = self.filter_query(kos, threshold)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/cgpm/gate.py:54: in filter_query
+    return [ko for ko in kos if self.is_allowed(ko, effective_threshold)]
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/cgpm/gate.py:40: in is_allowed
+    return float(ko.confidence.value) >= float(effective_threshold)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   TypeError: float() argument must be a string or a real number, not 'ConfidenceScore'
+________________ test_confidence_gate_with_threshold_parameter _________________
+tests/test_gate.py:179: in test_confidence_gate_with_threshold_parameter
+    assert gate.is_allowed(ko, threshold=ConfidenceScore(0.7)) == False, "Should be blocked with threshold 0.7"
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/cgpm/gate.py:40: in is_allowed
+    return float(ko.confidence.value) >= float(effective_threshold)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   TypeError: float() argument must be a string or a real number, not 'ConfidenceScore'
+__________________________ test_fact_store_operations __________________________
+tests/test_store.py:37: in test_fact_store_operations
+    ko_id = store.insert(ko)
+            ^^^^^^^^^^^^^^^^
+src/cgpm/store.py:101: in insert
+    self._log_provenance(ko_id, "CREATE", {
+src/cgpm/store.py:249: in _log_provenance
+    cursor.execute('''
+E   sqlite3.OperationalError: database is locked
+__________________________ test_fact_store_edge_cases __________________________
+tests/test_store.py:120: in test_fact_store_edge_cases
+    ko_id = store.insert(ko)
+            ^^^^^^^^^^^^^^^^
+src/cgpm/store.py:101: in insert
+    self._log_provenance(ko_id, "CREATE", {
+src/cgpm/store.py:249: in _log_provenance
+    cursor.execute('''
+E   sqlite3.OperationalError: database is locked
+______________________ test_fact_store_provenance_logging ______________________
+tests/test_store.py:164: in test_fact_store_provenance_logging
+    ko_id = store.insert(ko)
+            ^^^^^^^^^^^^^^^^
+src/cgpm/store.py:101: in insert
+    self._log_provenance(ko_id, "CREATE", {
+src/cgpm/store.py:249: in _log_provenance
+    cursor.execute('''
+E   sqlite3.OperationalError: database is locked
+=========================== short test summary info ============================
+FAILED tests/test_core.py::TestKnowledgeObject::test_init_basic - AssertionEr...
+FAILED tests/test_core.py::TestKnowledgeObject::test_init_with_confidence - A...
+FAILED tests/test_core.py::TestKnowledgeObject::test_decay - AttributeError: ...
+FAILED tests/test_core.py::TestKnowledgeObject::test_decay_floor - AttributeE...
+FAILED tests/test_core.py::TestKnowledgeObject::test_to_json - TypeError: Obj...
+FAILED tests/test_engine.py::test_rule_scoring - AssertionError: Endorsement ...
+FAILED tests/test_engine.py::test_composite_score_calculation - AssertionErro...
+FAILED tests/test_engine.py::test_engine_update_confidence - TypeError: float...
+FAILED tests/test_gate.py::test_confidence_gate_basic - TypeError: float() ar...
+FAILED tests/test_gate.py::test_confidence_gate_custom_thresholds - Attribute...
+FAILED tests/test_gate.py::test_confidence_gate_reasoning_context - TypeError...
+FAILED tests/test_gate.py::test_confidence_gate_with_threshold_parameter - Ty...
+FAILED tests/test_store.py::test_fact_store_operations - sqlite3.OperationalE...
+FAILED tests/test_store.py::test_fact_store_edge_cases - sqlite3.OperationalE...
+FAILED tests/test_store.py::test_fact_store_provenance_logging - sqlite3.Oper...
+======================== 15 failed, 16 passed in 15.24s ========================

@@ -1,0 +1,38 @@
+{
+    "domain": "MedicalQA",
+    "timestamp": "2026-04-06T03:25:07.162705",
+    "results": [
+        {
+            "query": "What are the contraindications for administering drug X in a patient with hypertension?",
+            "avg_accuracy_improvement": 0.18503333333333327,
+            "convergence_stability": 0.0,
+            "avg_sample_efficiency": null,
+            "runs": [
+                {
+                    "run_id": 0,
+                    "initial_gap": 0.9475,
+                    "final_gap": 0.7624666666666667,
+                    "improvement": 0.18503333333333327,
+                    "queries_to_target": null,
+                    "final_consensus": "[cardiology]: Step-by-step reasoning for 'Query: Wait, the previous analysis missed 'phenotypic'. How does 'phenotypic' impact the legal framework? (Derived from expert reference)\n\nShared Blackboard:\n' in the cardiology domain.\nExploring specific concepts: phenotypic.\nAnalysis of phenotypic suggests that standard cardiology frameworks may need refinement.\n\n\n[pharmacy]: Step-by-step reasoning for 'Query: Wait, the previous analysis missed 'phenotypic'. How does 'phenotypic' impact the legal framework? (Derived from expert reference)\n\nShared Blackboard:\n[cardiology]: Step-by-step reasoning for 'Query: Wait, the previous analysis missed 'phenotypic'. How does 'phenotypic' impact the legal framework? (Derived from expert reference)\n\nShared Blackboard:\n' in the cardiology domain.\nExploring specific concepts: phenotypic.\nAnalysis of phenotypic suggests that standard cardiology frameworks may need refinement.\n' in the pharmacy domain.\nExploring specific concepts: phenotypic.\nAnalysis of phenotypic suggests that standard pharmacy frameworks may need refinement.\n"
+                },
+                {
+                    "run_id": 1,
+                    "initial_gap": 0.9475,
+                    "final_gap": 0.7624666666666667,
+                    "improvement": 0.18503333333333327,
+                    "queries_to_target": null,
+                    "final_consensus": "[cardiology]: Step-by-step reasoning for 'Query: Wait, the previous analysis missed 'phenotypic'. How does 'phenotypic' impact the legal framework? (Derived from expert reference)\n\nShared Blackboard:\n' in the cardiology domain.\nExploring specific concepts: phenotypic.\nAnalysis of phenotypic suggests that standard cardiology frameworks may need refinement.\n\n\n[pharmacy]: Step-by-step reasoning for 'Query: Wait, the previous analysis missed 'phenotypic'. How does 'phenotypic' impact the legal framework? (Derived from expert reference)\n\nShared Blackboard:\n[cardiology]: Step-by-step reasoning for 'Query: Wait, the previous analysis missed 'phenotypic'. How does 'phenotypic' impact the legal framework? (Derived from expert reference)\n\nShared Blackboard:\n' in the cardiology domain.\nExploring specific concepts: phenotypic.\nAnalysis of phenotypic suggests that standard cardiology frameworks may need refinement.\n' in the pharmacy domain.\nExploring specific concepts: phenotypic.\nAnalysis of phenotypic suggests that standard pharmacy frameworks may need refinement.\n"
+                },
+                {
+                    "run_id": 2,
+                    "initial_gap": 0.9475,
+                    "final_gap": 0.7624666666666667,
+                    "improvement": 0.18503333333333327,
+                    "queries_to_target": null,
+                    "final_consensus": "[cardiology]: Step-by-step reasoning for 'Query: Wait, the previous analysis missed 'phenotypic'. How does 'phenotypic' impact the legal framework? (Derived from expert reference)\n\nShared Blackboard:\n' in the cardiology domain.\nExploring specific concepts: phenotypic.\nAnalysis of phenotypic suggests that standard cardiology frameworks may need refinement.\n\n\n[pharmacy]: Step-by-step reasoning for 'Query: Wait, the previous analysis missed 'phenotypic'. How does 'phenotypic' impact the legal framework? (Derived from expert reference)\n\nShared Blackboard:\n[cardiology]: Step-by-step reasoning for 'Query: Wait, the previous analysis missed 'phenotypic'. How does 'phenotypic' impact the legal framework? (Derived from expert reference)\n\nShared Blackboard:\n' in the cardiology domain.\nExploring specific concepts: phenotypic.\nAnalysis of phenotypic suggests that standard cardiology frameworks may need refinement.\n' in the pharmacy domain.\nExploring specific concepts: phenotypic.\nAnalysis of phenotypic suggests that standard pharmacy frameworks may need refinement.\n"
+                }
+            ]
+        }
+    ]
+}

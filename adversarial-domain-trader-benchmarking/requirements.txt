@@ -1,0 +1,6 @@
+pandas
+numpy-financial
+pydantic
+asyncio
+networkx
+scikit-learn
