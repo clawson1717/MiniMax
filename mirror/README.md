@@ -78,14 +78,14 @@ mirror compare --models gpt-4,claude-3.5,llama-3 --task mmlu --output report.htm
 
 ## Implementation Roadmap
 
-### Step 1: Core Framework + Cycle Consistency Prober ⬅️ CURRENT
+### Step 1: Core Framework + Cycle Consistency Prober ✅
 - [x] Project scaffold
-- [ ] LLM abstraction layer (litellm)
-- [ ] `CycleConsistencyProber` with forward/reverse/cross-model tests
-- [ ] Basic CLI: `mirror probe`
-- [ ] Unit tests
+- [x] LLM abstraction layer (litellm)
+- [x] `CycleConsistencyProber` with forward/reverse/cross-model tests
+- [x] Basic CLI: `mirror probe`
+- [x] Unit tests
 
-### Step 2: Multi-Dimensional Judge Scorer
+### Step 2: Multi-Dimensional Judge Scorer ⬅️ CURRENT
 - [ ] `DimensionScorer` with 6 faithfulness dimensions
 - [ ] LLM-as-judge prompts (calibrated)
 - [ ] Per-dimension + weighted composite scoring
