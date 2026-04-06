@@ -5,22 +5,38 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "raptor-llm"
 version = "0.1.0"
-description = "RAPTOR — Reasoning quality Assessment via Polling, Trajectory, and Orchestration for Reliability"
+description = "RAPTOR — Real-time reasoning quality controller combining entropy trajectory monitoring, multi-agent disagreement, and utility-guided orchestration for LLM reliability."
 readme = "README.md"
 license = {text = "MIT"}
 requires-python = ">=3.10"
 authors = [
     {name = "RAPTOR Team"}
 ]
-keywords = ["llm", "reasoning", "uncertainty", "calibration", "multi-agent", "orchestration"]
+keywords = [
+    "llm",
+    "reasoning",
+    "uncertainty",
+    "calibration",
+    "multi-agent",
+    "orchestration",
+    "entropy",
+    "disagreement",
+    "chain-of-thought",
+]
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
     "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
     "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Typing :: Typed",
 ]
 
 dependencies = [
@@ -39,13 +55,21 @@ dev = [
     "ruff>=0.1",
     "mypy>=1.7",
 ]
-streamlit = ["streamlit>=1.30"]
 openai = ["openai>=1.12"]
 anthropic = ["anthropic>=0.20"]
+llm = [
+    "openai>=1.12",
+    "anthropic>=0.20",
+]
+
+[project.scripts]
+raptor-dashboard = "raptor.dashboard:main"
 
 [project.urls]
 Homepage = "https://github.com/YOUR_HANDLE/raptor"
 Repository = "https://github.com/YOUR_HANDLE/raptor.git"
+Documentation = "https://github.com/YOUR_HANDLE/raptor/tree/main/docs"
+Issues = "https://github.com/YOUR_HANDLE/raptor/issues"
 
 [tool.setuptools.packages.find]
 where = ["src"]

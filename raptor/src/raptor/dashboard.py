@@ -695,5 +695,10 @@ def _cli_main(args: Optional[list[str]] = None) -> None:
         parser.print_help()
 
 
-if __name__ == "__main__":
+def main() -> None:
+    """CLI entry point for ``raptor-dashboard`` console script."""
     _cli_main()
+
+
+if __name__ == "__main__":
+    main()
