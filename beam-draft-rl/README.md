@@ -40,5 +40,27 @@ Combines the precision of verifiable physics rewards (BeamPERL) with the efficie
 12. **Documentation & Demo** [DONE]
     - Final README and "Drafting vs Traditional CoT" token savings demo.
 
+## 🛠 Usage
+
+To use Beam-Draft RL (BDRL):
+
+### 1. Run the Demo
+Compare "Drafting" vs "Traditional CoT" token savings and performance.
+```bash
+python3 src/demo.py
+```
+
+### 2. Run the Benchmark
+Evaluate accuracy and efficiency metrics programmatically.
+```bash
+python3 -m src.benchmark
+```
+
+### 3. Solve a Problem (CLI)
+Use the CLI to solve a mechanics problem using a trained draft-thinking model.
+```bash
+python3 -m src.cli solve "cantilever beam 5m with 10kN at free end"
+```
+
 ---
 Part of the **ClawWork** series. 🦞
